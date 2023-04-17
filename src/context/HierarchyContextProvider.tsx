@@ -332,6 +332,15 @@ export function HierarchyContextProvider({
     return path.includes(parentId);
   };
 
+  const isDirectChild = (
+    parentId: number | string,
+    childId: number | string
+  ) => {
+    const { parent } = findParentByChildId(childId);
+    const id = parent?.id;
+    return id === parentId;
+  };
+
   useImperativeHandle(
     treeRef,
     () => {
@@ -373,6 +382,7 @@ export function HierarchyContextProvider({
         findParentByChildId,
         findById,
         isChild,
+        isDirectChild,
       }}
     >
       {children}

@@ -103,6 +103,10 @@ export interface IHierarchyContextData {
     nestedObject?: INestedObject
   ) => INestedObject | null;
   isChild: (parentId: number | string, childId: number | string) => boolean;
+  isDirectChild: (
+    parentId: number | string,
+    childId: number | string
+  ) => boolean;
 }
 
 export interface ISidebarDrawerProps {

@@ -20,7 +20,7 @@ export const RenderCard = ({
     setHierarchy,
     hierarchyRef,
     editById,
-    isChild,
+    isDirectChild,
     findParentByChildId,
     findById,
     draggingItemRef,
@@ -120,7 +120,8 @@ export const RenderCard = ({
     let dragLabel = 'Place here';
     if (draggingItemRef.current) {
       const dragItemId = draggingItemRef.current.id;
-      const canDrop = dragItemId !== data.id && !isChild(dragItemId, data.id);
+      const canDrop =
+        dragItemId !== data.id && !isDirectChild(data.id, dragItemId);
       dragLabel = draggingItemRef.current.label;
       if (!canDrop) return;
     }
@@ -170,7 +171,7 @@ export const RenderCard = ({
     () => ({
       accept: 'box',
       canDrop: (item: INestedObject) =>
-        item.id !== data.id && !isChild(item.id, data.id),
+        data.id !== item.id && !isDirectChild(data.id, item.id),
       drop: (drag: INestedObject) => onDrop(drag),
       collect: (monitor) => ({
         isOver: !!monitor.isOver(),
