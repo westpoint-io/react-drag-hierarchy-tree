@@ -50,7 +50,7 @@ export const RenderLabel = styled.div<ICardCard>`
     `}
 `;
 
-export const RenderCarPersonal = styled.div`
+export const RenderCardPersonal = styled.div`
   position: relative;
 
   &.mock_card {

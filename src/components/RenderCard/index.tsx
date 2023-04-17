@@ -11,7 +11,7 @@ import {
   CardArea,
   RenderLabel,
   StyledLabel,
-  RenderCarPersonal,
+  RenderCardPersonal,
 } from './styles';
 
 export const RenderCard = ({
@@ -164,6 +164,7 @@ export const RenderCard = ({
 
       setHierarchy(addedDragItemHierarchy);
       hierarchyRef.current = addedDragItemHierarchy;
+      prop.onChange && prop.onChange(addedDragItemHierarchy);
     }
   };
 
@@ -200,7 +201,7 @@ export const RenderCard = ({
       }
     >
       {renderCard ? (
-        <RenderCarPersonal key={`label_inner_${data.id}`} ref={drag}>
+        <RenderCardPersonal key={`label_inner_${data.id}`} ref={drag}>
           {renderCard({
             isDragging,
             label,
@@ -216,7 +217,7 @@ export const RenderCard = ({
               prop={prop}
             />
           )}
-        </RenderCarPersonal>
+        </RenderCardPersonal>
       ) : (
         <RenderLabel
           key={`label_inner_${data.id}`}

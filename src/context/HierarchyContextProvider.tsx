@@ -123,7 +123,7 @@ export function HierarchyContextProvider({
     (
       id: number | string,
       data: Partial<INestedObject>,
-      action = 'add' as 'replace' | 'add' | 'remove',
+      action: 'replace' | 'add' | 'remove' = 'add',
       nestedObject?: INestedObject
     ) => {
       let nestedObjectClone = nestedObject

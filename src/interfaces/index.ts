@@ -40,6 +40,7 @@ export interface IOrgTreeProps {
   buttonBorderColor?: string;
   strokeWidth?: '1px' | '2px' | '3px' | '4px' | '5px';
   onClick?: (...data: any) => any;
+  onChange?: (data: INestedObject) => any;
   renderButton?: ({ onClick, isCollapsed }: IRenderButton) => JSX.Element;
   renderCard?: ({ isDragging, label, data, isPreviewCard }: IRenderCard) => any;
   cardStyle?: CSSProperties;
@@ -60,6 +61,7 @@ export interface IOrgTreeNodeProps
   expandAll: boolean;
   onExpand?: (e: any, nodeData: any) => any;
   onClick?: (e: any, nodeData: any) => any;
+  onChange?: (data: INestedObject) => any;
 }
 
 export interface IOptionalNestedObject
