@@ -7,12 +7,7 @@ import { useDebounce } from '../../hooks/useDebounce';
 import { INestedObject } from '../../interfaces';
 import { IRenderCard } from '../interfaces';
 import { RenderBtn } from '../RenderBtn';
-import {
-  CardArea,
-  RenderLabel,
-  StyledLabel,
-  RenderCardPersonal,
-} from './styles';
+import { CardArea, RenderLabel, StyledLabel, RenderCustomCard } from './styles';
 
 export const RenderCard = ({
   data,
@@ -45,6 +40,7 @@ export const RenderCard = ({
     if (componentChildren) {
       const elementMockLabel = document.getElementById(`label_text_mock`);
       const elementMockNode = document.getElementById(`node-tree-mock`);
+
       if (!elementMockLabel) return;
       if (!elementMockNode) return;
 
@@ -121,7 +117,7 @@ export const RenderCard = ({
   }, [isDragging]);
 
   const onDragEnter = (dropId: string | number) => {
-    let dragLabel = 'Copiar aqui';
+    let dragLabel = 'Place here';
     if (draggingItemRef.current) {
       const dragItemId = draggingItemRef.current.id;
       const canDrop = dragItemId !== data.id && !isChild(dragItemId, data.id);
@@ -201,7 +197,7 @@ export const RenderCard = ({
       }
     >
       {renderCard ? (
-        <RenderCardPersonal key={`label_inner_${data.id}`} ref={drag}>
+        <RenderCustomCard key={`label_inner_${data.id}`} ref={drag}>
           {renderCard({
             isDragging,
             label,
@@ -217,7 +213,7 @@ export const RenderCard = ({
               prop={prop}
             />
           )}
-        </RenderCardPersonal>
+        </RenderCustomCard>
       ) : (
         <RenderLabel
           key={`label_inner_${data.id}`}
