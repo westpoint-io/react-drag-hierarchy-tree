@@ -332,6 +332,14 @@ export function HierarchyContextProvider({
     return path.includes(parentId);
   };
 
+  const isParent = (parentId: number | string, childId: number | string) => {
+    const parent = findById(parentId);
+    if (!parent) return false;
+    const children = getAllChildrenIds(parent);
+    if (children.includes(childId)) return true;
+    return false;
+  };
+
   const isDirectChild = (
     parentId: number | string,
     childId: number | string
@@ -339,6 +347,23 @@ export function HierarchyContextProvider({
     const { parent } = findParentByChildId(childId);
     const id = parent?.id;
     return id === parentId;
+  };
+
+  const getAllChildrenIds = (obj: INestedObject) => {
+    let childrenIds: (string | number)[] = [];
+
+    if (!obj.children.length) {
+      return childrenIds;
+    }
+
+    for (let child of obj.children) {
+      const childIds = getAllChildrenIds(child);
+      childrenIds = childrenIds.concat(childIds);
+    }
+
+    childrenIds = childrenIds.concat(obj.children.map((child) => child.id));
+
+    return childrenIds;
   };
 
   useImperativeHandle(
@@ -383,6 +408,7 @@ export function HierarchyContextProvider({
         findById,
         isChild,
         isDirectChild,
+        isParent,
       }}
     >
       {children}

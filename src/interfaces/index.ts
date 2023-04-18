@@ -107,6 +107,7 @@ export interface IHierarchyContextData {
     parentId: number | string,
     childId: number | string
   ) => boolean;
+  isParent: (parentId: number | string, childId: number | string) => boolean;
 }
 
 export interface ISidebarDrawerProps {
