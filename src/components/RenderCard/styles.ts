@@ -52,6 +52,7 @@ export const RenderLabel = styled.div<ICardCard>`
 
 export const RenderCustomCard = styled.div`
   position: relative;
+  cursor: grab;
 
   &.mock_card {
     border: 1px solid #7de874;
