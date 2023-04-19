@@ -110,6 +110,7 @@ export interface IHierarchyContextData {
     childId: number | string
   ) => boolean;
   isParent: (parentId: number | string, childId: number | string) => boolean;
+  updateTree: (nestedObject: INestedObject) => void;
 }
 
 export interface ISidebarDrawerProps {
@@ -153,6 +154,8 @@ export type IAddChildrenById = (
   nestedObject?: INestedObject | undefined
 ) => INestedObject;
 
+export type IUpdateTree = (nestedObject: INestedObject) => void;
+
 export interface ITreeRefProps {
   onExpandNodes: IExpandNodes;
   findById: IFindById;
@@ -160,6 +163,7 @@ export interface ITreeRefProps {
   removeById: IRemoveById;
   editById: IEditById;
   addChildrenById: IAddChildrenById;
+  updateTree: IUpdateTree;
   nestedObjectToArray: (data: INestedObject) => IParsedArray[];
   arrayToNestedObject: (data: IParsedArray[]) => INestedObject;
   data: INestedObject;

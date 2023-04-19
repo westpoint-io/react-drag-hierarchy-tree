@@ -209,6 +209,11 @@ export function HierarchyContextProvider({
     []
   );
 
+  const updateTree = useCallback((newNestedObject: INestedObject) => {
+    setHierarchy(newNestedObject);
+    hierarchyRef.current = newNestedObject;
+  }, []);
+
   const removeById = useCallback(
     (
       id: number | string,
@@ -376,6 +381,7 @@ export function HierarchyContextProvider({
         removeById,
         editById,
         addChildrenById,
+        updateTree,
         nestedObjectToArray,
         arrayToNestedObject,
         data: hierarchyRef.current,
@@ -390,6 +396,7 @@ export function HierarchyContextProvider({
       nestedObjectToArray,
       onExpandNodes,
       removeById,
+      updateTree,
     ]
   );
 
@@ -409,6 +416,7 @@ export function HierarchyContextProvider({
         isChild,
         isDirectChild,
         isParent,
+        updateTree,
       }}
     >
       {children}
