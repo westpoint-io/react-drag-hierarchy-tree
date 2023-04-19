@@ -28,6 +28,8 @@ interface IRenderCard {
   labelId: string;
   data: INestedObject;
   isPreviewCard: boolean;
+  isOver: boolean;
+  canDrop: boolean;
 }
 
 export interface IOrgTreeProps {

@@ -170,7 +170,7 @@ export const RenderCard = ({
 
   const { onDebounce } = useDebounce(onDragEnter, 300);
 
-  const [{ isOver }, drop] = useDrop(
+  const [{ isOver, canDrop }, drop] = useDrop(
     () => ({
       accept: 'box',
       canDrop: (item: INestedObject) =>
@@ -180,6 +180,7 @@ export const RenderCard = ({
       drop: (drag: INestedObject) => onDrop(drag),
       collect: (monitor) => ({
         isOver: !!monitor.isOver(),
+        canDrop: monitor.canDrop(),
       }),
     }),
     []
@@ -210,6 +211,8 @@ export const RenderCard = ({
             labelId: `label_text_${data.id}`,
             data,
             isPreviewCard: !!mock,
+            isOver,
+            canDrop,
           })}
           {prop.collapsable && !isLastNode(data, prop) && (
             <RenderBtn
