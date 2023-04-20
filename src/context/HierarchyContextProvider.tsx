@@ -214,6 +214,8 @@ export function HierarchyContextProvider({
     hierarchyRef.current = newNestedObject;
   }, []);
 
+  const getTree = () => hierarchy;
+
   const removeById = useCallback(
     (
       id: number | string,
@@ -382,6 +384,7 @@ export function HierarchyContextProvider({
         editById,
         addChildrenById,
         updateTree,
+        getTree,
         nestedObjectToArray,
         arrayToNestedObject,
         data: hierarchyRef.current,
@@ -389,6 +392,7 @@ export function HierarchyContextProvider({
     },
     [
       addChildrenById,
+      getTree,
       arrayToNestedObject,
       editById,
       findById,
@@ -417,6 +421,7 @@ export function HierarchyContextProvider({
         isDirectChild,
         isParent,
         updateTree,
+        getTree,
       }}
     >
       {children}
