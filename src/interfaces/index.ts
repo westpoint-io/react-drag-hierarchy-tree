@@ -42,7 +42,7 @@ export interface IOrgTreeProps {
   buttonBorderColor?: string;
   strokeWidth?: '1px' | '2px' | '3px' | '4px' | '5px';
   onClick?: (...data: any) => any;
-  onChange?: (data: INestedObject) => any;
+  onChange?: (data?: INestedObject, relationships?: IRelationships) => any;
   renderButton?: ({ onClick, isCollapsed }: IRenderButton) => JSX.Element;
   renderCard?: ({ isDragging, label, data, isPreviewCard }: IRenderCard) => any;
   cardStyle?: CSSProperties;
@@ -54,6 +54,16 @@ export interface INodeTree {
   children: 'children';
 }
 
+interface IRelationship {
+  parent: string | number;
+  child: string | number;
+}
+
+interface IRelationships {
+  oldRelationship: IRelationship;
+  newRelationship: IRelationship;
+}
+
 export interface IOrgTreeNodeProps
   extends Omit<
     IOrgTreeProps,
@@ -63,7 +73,7 @@ export interface IOrgTreeNodeProps
   expandAll: boolean;
   onExpand?: (e: any, nodeData: any) => any;
   onClick?: (e: any, nodeData: any) => any;
-  onChange?: (data: INestedObject) => any;
+  onChange?: (data?: INestedObject, relationships?: IRelationships) => any;
 }
 
 export interface IOptionalNestedObject

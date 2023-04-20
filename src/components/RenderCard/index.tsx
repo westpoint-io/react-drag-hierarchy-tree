@@ -164,7 +164,14 @@ export const RenderCard = ({
 
       setHierarchy(addedDragItemHierarchy);
       hierarchyRef.current = addedDragItemHierarchy;
-      prop.onChange && prop.onChange(addedDragItemHierarchy);
+
+      const oldRelationship = { parent: parentDragItem.id, child: dragItem.id };
+      const newRelationship = { parent: dropItem.id, child: dragItem.id };
+      prop.onChange &&
+        prop.onChange(addedDragItemHierarchy, {
+          oldRelationship,
+          newRelationship,
+        });
     }
   };
 
