@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 
 import { isLastNode } from '..';
-import { useHierarchyData } from '../../context/HierarchyContextProvider';
 import { useDebounce } from '../../hooks/useDebounce';
 import { INestedObject } from '../../interfaces';
 import { IRenderCard } from '../interfaces';
@@ -15,6 +14,7 @@ export const RenderCard = ({
   expand,
   mock,
   prop: { renderCard, ...prop },
+  hierarchyProps,
 }: IRenderCard) => {
   const {
     setHierarchy,
@@ -25,7 +25,7 @@ export const RenderCard = ({
     findParentByChildId,
     findById,
     draggingItemRef,
-  } = useHierarchyData();
+  } = hierarchyProps;
 
   const node = prop.node;
   const label = data[node.label];

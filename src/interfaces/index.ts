@@ -64,13 +64,11 @@ interface IRelationships {
   newRelationship: IRelationship;
 }
 
-export interface IOrgTreeNodeProps
-  extends Omit<
-    IOrgTreeProps,
-    'onClick' | 'data' | 'setExpandAll' | 'expandAll'
-  > {
+export interface IOrgTreeNodeProps extends IOrgTreeProps {
+  treeRef: ForwardedRef<any>;
   node: INodeTree;
   expandAll: boolean;
+  onExpandNodes: () => void;
   onExpand?: (e: any, nodeData: any) => any;
   onClick?: (e: any, nodeData: any) => any;
   onChange?: (data?: INestedObject, relationships?: IRelationships) => any;
@@ -124,10 +122,18 @@ export interface IHierarchyContextData {
   getTree: () => INestedObject;
 }
 
+export interface IHierarchyHook extends IHierarchyContextData {}
+
 export interface ISidebarDrawerProps {
   data: any;
   onExpandNodes: () => void;
   children: ReactNode;
+  treeRef: ForwardedRef<any>;
+}
+
+export interface IHierarchyProps {
+  data: any;
+  onExpandNodes: () => void;
   treeRef: ForwardedRef<any>;
 }
 

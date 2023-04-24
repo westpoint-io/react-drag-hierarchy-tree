@@ -3,7 +3,11 @@ import React, { MouseEvent } from 'react';
 import { IRenderCard } from '../interfaces';
 import { RenderButton, ContainerButton } from './styles';
 
-export const RenderBtn = ({ setExpand, expand, prop }: IRenderCard) => {
+export const RenderBtn = ({
+  setExpand,
+  expand,
+  prop,
+}: Omit<IRenderCard, 'hierarchyProps'>) => {
   const { horizontal, renderButton } = prop;
 
   if (renderButton)

@@ -2,9 +2,9 @@ import React from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 
-import { useHierarchyData } from '../context/HierarchyContextProvider';
 import { IOrgTreeNodeProps } from '../interfaces';
 import { RenderNode } from './RenderNode';
+import { useHierarchy } from '../hooks/useHierarchy';
 
 export const isLastNode = (data: any, prop: IOrgTreeNodeProps) => {
   const node = prop.node;
@@ -20,11 +20,27 @@ const mock_data = {
 };
 
 export const TreeNode = (props: IOrgTreeNodeProps) => {
-  const { hierarchy } = useHierarchyData();
+  const { treeRef, onExpandNodes, data } = props;
+  const { hierarchy, ...hierarchyProps } = useHierarchy({
+    treeRef,
+    onExpandNodes,
+    data,
+  });
+  // const { hierarchy } = useHierarchyData();
   return (
     <DndProvider backend={HTML5Backend}>
-      <RenderNode data={hierarchy} prop={props} first />
-      <RenderNode data={mock_data} prop={props} mock />
+      <RenderNode
+        data={hierarchy}
+        hierarchyProps={hierarchyProps}
+        prop={props}
+        first
+      />
+      <RenderNode
+        hierarchyProps={hierarchyProps}
+        data={mock_data}
+        prop={props}
+        mock
+      />
     </DndProvider>
   );
 };

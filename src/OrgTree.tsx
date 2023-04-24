@@ -35,24 +35,21 @@ export const OrgTreeComponent = forwardRef<any, IOrgTreeProps>(
     }, [data.id]);
 
     return (
-      <HierarchyContextProvider
-        treeRef={ref}
-        onExpandNodes={onExpandNodes}
-        data={data}
-      >
-        <OrgTreeContainer horizontal={horizontal}>
-          <OrgTree horizontal={horizontal}>
-            <TreeNode
-              horizontal={horizontal}
-              node={node}
-              collapsable={collapsable}
-              expandAll={expandAllNodes}
-              onClick={(e, nodeData) => onClick && onClick(e, nodeData)}
-              {...props}
-            />
-          </OrgTree>
-        </OrgTreeContainer>
-      </HierarchyContextProvider>
+      <OrgTreeContainer horizontal={horizontal}>
+        <OrgTree horizontal={horizontal}>
+          <TreeNode
+            data={data}
+            treeRef={ref}
+            horizontal={horizontal}
+            node={node}
+            onExpandNodes={onExpandNodes}
+            collapsable={collapsable}
+            expandAll={expandAllNodes}
+            onClick={(e, nodeData) => onClick && onClick(e, nodeData)}
+            {...props}
+          />
+        </OrgTree>
+      </OrgTreeContainer>
     );
   }
 );

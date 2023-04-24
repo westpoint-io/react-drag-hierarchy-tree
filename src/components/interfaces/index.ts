@@ -1,6 +1,10 @@
 import { Dispatch, SetStateAction } from 'react';
 
-import { INestedObject, IOrgTreeNodeProps } from '../../interfaces';
+import {
+  IHierarchyHook,
+  INestedObject,
+  IOrgTreeNodeProps,
+} from '../../interfaces';
 
 export interface ITreeOptions {
   horizontal?: boolean;
@@ -21,6 +25,7 @@ export interface IRender {
   prop: IOrgTreeNodeProps;
   first?: boolean;
   mock?: boolean;
+  hierarchyProps: Omit<IHierarchyHook, 'hierarchy'>;
 }
 
 export interface IRenderCard {
@@ -29,4 +34,5 @@ export interface IRenderCard {
   expand?: boolean;
   setExpand: Dispatch<SetStateAction<boolean>>;
   mock?: boolean;
+  hierarchyProps: Omit<IHierarchyHook, 'hierarchy'>;
 }

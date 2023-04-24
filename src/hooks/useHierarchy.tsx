@@ -1,29 +1,20 @@
 import clone from 'clone';
-import React, {
-  createContext,
+import {
   useCallback,
-  useContext,
   useEffect,
   useImperativeHandle,
   useRef,
   useState,
+  useMemo,
 } from 'react';
 
-import {
-  IHierarchyContextData,
-  INestedObject,
-  IParsedArray,
-  ISidebarDrawerProps,
-} from '../interfaces';
+import { IHierarchyProps, INestedObject, IParsedArray } from '../interfaces';
 
-const HierarchyContext = createContext({} as IHierarchyContextData);
-
-export function HierarchyContextProvider({
-  children,
+export const useHierarchy = ({
   onExpandNodes,
   treeRef,
   data,
-}: ISidebarDrawerProps): JSX.Element {
+}: IHierarchyProps) => {
   const [hierarchy, setHierarchy] = useState<INestedObject>(data);
   const hierarchyRef = useRef<INestedObject>(data);
   const draggingItemRef = useRef<INestedObject>(null);
@@ -405,30 +396,63 @@ export function HierarchyContextProvider({
     ]
   );
 
-  return (
-    <HierarchyContext.Provider
-      value={{
-        draggingItemRef,
-        hierarchyRef,
-        hierarchy,
-        setHierarchy,
-        nestedObjectToArray,
-        arrayToNestedObject,
-        editById,
-        removeById,
-        findParentByChildId,
-        findById,
-        isChild,
-        isDirectChild,
-        isParent,
-        updateTree,
-        getTree,
-      }}
-    >
-      {children}
-    </HierarchyContext.Provider>
-  );
-}
+  return useMemo(() => {
+    return {
+      draggingItemRef,
+      hierarchyRef,
+      hierarchy,
+      setHierarchy,
+      nestedObjectToArray,
+      arrayToNestedObject,
+      editById,
+      removeById,
+      findParentByChildId,
+      findById,
+      isChild,
+      isDirectChild,
+      isParent,
+      updateTree,
+      getTree,
+    };
+  }, [
+    draggingItemRef,
+    hierarchyRef,
+    hierarchy,
+    setHierarchy,
+    nestedObjectToArray,
+    arrayToNestedObject,
+    editById,
+    removeById,
+    findParentByChildId,
+    findById,
+    isChild,
+    isDirectChild,
+    isParent,
+    updateTree,
+    getTree,
+  ]);
 
-export const useHierarchyData = (): IHierarchyContextData =>
-  useContext(HierarchyContext);
+  // return (
+  //   <HierarchyContext.Provider
+  //     value={{
+  //       draggingItemRef,
+  //       hierarchyRef,
+  //       hierarchy,
+  //       setHierarchy,
+  //       nestedObjectToArray,
+  //       arrayToNestedObject,
+  //       editById,
+  //       removeById,
+  //       findParentByChildId,
+  //       findById,
+  //       isChild,
+  //       isDirectChild,
+  //       isParent,
+  //       updateTree,
+  //       getTree,
+  //     }}
+  //   >
+  //     {children}
+  //   </HierarchyContext.Provider>
+  // );
+};

@@ -6,7 +6,13 @@ import { RenderChildren } from '../RenderChildren';
 import { RenderCard } from '../RenderCard';
 import { OrgTreeNode } from './styles';
 
-export const RenderNode = ({ data, prop, first, mock }: IRender) => {
+export const RenderNode = ({
+  data,
+  prop,
+  first,
+  mock,
+  hierarchyProps,
+}: IRender) => {
   const node = prop.node;
   const cls = ['org-tree-node'];
 
@@ -36,6 +42,7 @@ export const RenderNode = ({ data, prop, first, mock }: IRender) => {
       style={data.id === 'mock' ? { display: 'none' } : {}}
     >
       <RenderCard
+        hierarchyProps={hierarchyProps}
         setExpand={setExpand}
         expand={expand}
         data={data}
