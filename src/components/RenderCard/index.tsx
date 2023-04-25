@@ -7,6 +7,8 @@ import { INestedObject } from '../../interfaces';
 import { IRenderCard } from '../interfaces';
 import { RenderBtn } from '../RenderBtn';
 import { CardArea, RenderLabel, StyledLabel, RenderCustomCard } from './styles';
+import { useIndex } from '../../context/IndexContextProvider';
+import { useHierarchyData } from '../../context/HierarchyContextProvider';
 
 export const RenderCard = ({
   data,
@@ -16,16 +18,16 @@ export const RenderCard = ({
   prop: { renderCard, ...prop },
   hierarchyProps,
 }: IRenderCard) => {
+  const { setHierarchy, hierarchyRef, draggingItemRef } = hierarchyProps;
   const {
-    setHierarchy,
-    hierarchyRef,
     editById,
     isDirectChild,
     isParent,
     findParentByChildId,
     findById,
-    draggingItemRef,
-  } = hierarchyProps;
+    updateTree,
+  } = useHierarchyData();
+  const { index } = useIndex();
 
   const node = prop.node;
   const label = data[node.label];
@@ -123,8 +125,8 @@ export const RenderCard = ({
       const dragItemId = draggingItemRef.current.id;
       const canDrop =
         dragItemId !== data.id &&
-        !isDirectChild(data.id, dragItemId) &&
-        !isParent(dragItemId, data.id);
+        !isDirectChild(index, data.id, dragItemId, hierarchyRef.current) &&
+        !isParent(index, dragItemId, data.id, hierarchyRef.current);
       dragLabel = draggingItemRef.current.label;
       if (!canDrop) return;
     }
@@ -136,10 +138,10 @@ export const RenderCard = ({
   };
 
   const onDrop = (drag: INestedObject) => {
-    const dragItem = findById(drag.id);
+    const dragItem = findById(index, drag.id, hierarchyRef.current);
     const dropItem = data;
 
-    const result = findParentByChildId(drag.id);
+    const result = findParentByChildId(index, drag.id, hierarchyRef.current);
     if (!result) return;
     const { parent: parentDragItem } = result;
 
@@ -150,12 +152,15 @@ export const RenderCard = ({
       };
 
       const removedDragItemHierarchy = editById(
+        index,
         parentDragItem.id,
         newParent,
-        'replace'
+        'replace',
+        hierarchyRef.current
       );
 
       const addedDragItemHierarchy = editById(
+        index,
         dropItem.id,
         {
           children: [dragItem],
@@ -167,6 +172,7 @@ export const RenderCard = ({
       if (addedDragItemHierarchy) {
         setHierarchy(addedDragItemHierarchy);
         hierarchyRef.current = addedDragItemHierarchy;
+        updateTree(index, addedDragItemHierarchy);
       }
 
       const oldRelationship = { parent: parentDragItem.id, child: dragItem.id };
@@ -186,8 +192,8 @@ export const RenderCard = ({
       accept: 'box',
       canDrop: (item: INestedObject) =>
         data.id !== item.id &&
-        !isDirectChild(data.id, item.id) &&
-        !isParent(item.id, data.id),
+        !isDirectChild(index, data.id, item.id, hierarchyRef.current) &&
+        !isParent(index, item.id, data.id, hierarchyRef.current),
       drop: (drag: INestedObject) => onDrop(drag),
       collect: (monitor) => ({
         isOver: !!monitor.isOver(),

@@ -90,7 +90,7 @@ export interface IParsedArray {
 
 export interface IHierarchyTreesContext {
   treesData: INestedObject[];
-  addTree: (tree: INestedObject) => number;
+  updateTree: (index: number, tree: INestedObject) => void;
   editById: (
     index: number,
     id: number | string,
@@ -118,17 +118,20 @@ export interface IHierarchyTreesContext {
   isChild: (
     index: number,
     parentId: number | string,
-    childId: number | string
+    childId: number | string,
+    nestedObject?: INestedObject
   ) => boolean;
   isDirectChild: (
     index: number,
     parentId: number | string,
-    childId: number | string
+    childId: number | string,
+    nestedObject?: INestedObject
   ) => boolean;
   isParent: (
     index: number,
     parentId: number | string,
-    childId: number | string
+    childId: number | string,
+    nestedObject?: INestedObject
   ) => boolean;
 }
 
@@ -174,41 +177,6 @@ export interface IHierarchyHook {
   draggingItemRef: MutableRefObject<INestedObject | null>;
   hierarchy: INestedObject;
   setHierarchy: Dispatch<SetStateAction<INestedObject>>;
-  editById: (
-    id: number | string,
-    data: Partial<INestedObject>,
-    action?: 'replace' | 'add' | 'remove',
-    nestedObject?: INestedObject
-  ) => INestedObject | undefined;
-  removeById: (
-    id: number | string,
-    idsToRemove: Array<number | string>,
-    nestedObject?: INestedObject
-  ) => INestedObject | undefined;
-  findParentByChildId: (
-    id: number | string,
-    nestedObject?: INestedObject
-  ) =>
-    | { parent: INestedObject | null; path: Array<number | string> }
-    | undefined;
-  findById: (
-    // nestedObject: INestedObject,
-    id: number | string,
-    nestedObject?: INestedObject
-  ) => INestedObject | null | undefined;
-  isChild: (
-    parentId: number | string,
-    childId: number | string
-  ) => boolean | undefined;
-  isDirectChild: (
-    parentId: number | string,
-    childId: number | string
-  ) => boolean | undefined;
-  isParent: (
-    parentId: number | string,
-    childId: number | string
-  ) => boolean | undefined;
-  // updateTree: (index: number, nestedObject: INestedObject) => void;
 }
 
 export interface ISidebarDrawerProps {

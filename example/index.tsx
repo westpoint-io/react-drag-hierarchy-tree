@@ -71,8 +71,13 @@ const App = () => {
   return (
     <div>
       <OrgTreeComponent
-        data={[data1, data2]}
+        data={[{ ...data1 }]}
         collapsable={false}
+        renderCard={({ label, canDrop }) => (
+          <div style={{ padding: 30, background: canDrop ? 'red' : 'beige' }}>
+            {label}
+          </div>
+        )}
         // cardStyle={{ fontSize: 1 }}
         // strokeColor={'red'}
         // strokeWidth={'1px'}

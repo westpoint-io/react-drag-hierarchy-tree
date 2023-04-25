@@ -1,6 +1,4 @@
 import React from 'react';
-import { DndProvider } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend';
 
 import { IOrgTreeNodeProps } from '../interfaces';
 import { RenderNode } from './RenderNode';
@@ -24,8 +22,9 @@ export const TreeNode = (props: IOrgTreeNodeProps) => {
   const { hierarchy, ...hierarchyProps } = useHierarchy({
     data,
   });
+
   return (
-    <DndProvider backend={HTML5Backend}>
+    <>
       <RenderNode
         data={hierarchy}
         hierarchyProps={hierarchyProps}
@@ -38,6 +37,6 @@ export const TreeNode = (props: IOrgTreeNodeProps) => {
         prop={props}
         mock
       />
-    </DndProvider>
+    </>
   );
 };
