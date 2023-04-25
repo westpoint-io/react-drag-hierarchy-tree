@@ -2,6 +2,8 @@ import React from 'react';
 import { IRenderTrees } from '../interfaces';
 import { OrgTreeComponent } from './OrgTree/OrgTree';
 import { HierarchyTreesContextProvider } from '../context/HierarchyContextProvider';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 
 export const RenderTrees = ({
   data,
@@ -12,15 +14,18 @@ export const RenderTrees = ({
   ...props
 }: IRenderTrees) => (
   <HierarchyTreesContextProvider>
-    {data.map((tree, i) => (
-      <OrgTreeComponent
-        key={i}
-        data={tree}
-        collapsable={true}
-        expandAll={true}
-        horizontal={true}
-        {...props}
-      />
-    ))}
+    <DndProvider backend={HTML5Backend}>
+      {data.map((tree, i) => (
+        <OrgTreeComponent
+          key={i}
+          index={i}
+          data={tree}
+          collapsable={collapsable}
+          expandAll={expandAll}
+          horizontal={horizontal}
+          {...props}
+        />
+      ))}
+    </DndProvider>
   </HierarchyTreesContextProvider>
 );

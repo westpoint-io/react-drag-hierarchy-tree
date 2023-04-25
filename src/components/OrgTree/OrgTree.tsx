@@ -15,6 +15,7 @@ const initialState = {
 export const OrgTreeComponent = ({
   data,
   onClick,
+  index,
   collapsable = true,
   expandAll = true,
   horizontal = false,
@@ -33,6 +34,7 @@ export const OrgTreeComponent = ({
     <OrgTreeContainer horizontal={horizontal}>
       <OrgTree horizontal={horizontal}>
         <TreeNode
+          index={index}
           data={data}
           horizontal={horizontal}
           node={node}

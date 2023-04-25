@@ -1,5 +1,5 @@
 import clone from 'clone';
-import React, { createContext, useCallback, useContext, useState } from 'react';
+import React, { createContext, useContext, useState } from 'react';
 
 import { IHierarchyTreesContext, INestedObject } from '../interfaces';
 
@@ -12,105 +12,105 @@ export function HierarchyTreesContextProvider({
 }): JSX.Element {
   const [treesData, setTreesData] = useState<INestedObject[]>([]);
 
-  const addTree = useCallback((tree: INestedObject) => {
-    const treeIndex = treesData.length + 1;
-    setTreesData((current) => [...current, tree]);
-    return treeIndex;
-  }, []);
+  const addTree = (index: number, tree: INestedObject) => {
+    setTreesData((current) => {
+      current[index] = tree;
+      return [...current, tree];
+    });
+  };
 
-  const editById = useCallback(
-    (
-      index: number,
-      id: number | string,
-      data: Partial<INestedObject>,
-      action: 'replace' | 'add' | 'remove' = 'add',
-      nestedObject?: INestedObject
-    ) => {
-      const targetTree = treesData[index];
-      let nestedObjectClone = nestedObject
-        ? { ...nestedObject }
-        : { ...targetTree };
-      nestedObjectClone = clone(nestedObjectClone);
+  const updateTree = (index: number, tree: INestedObject) => {
+    setTreesData((current) => {
+      current[index] = tree;
+      return [...current];
+    });
+  };
 
-      if (nestedObjectClone.id === id) {
-        if (!action || action === 'replace')
-          return { ...nestedObjectClone, ...data };
-        if (!action || action === 'add')
-          return {
-            ...nestedObjectClone,
-            ...data,
-            children: [
-              ...nestedObjectClone.children,
-              ...(data.children ? data.children : []),
-            ],
-          };
-        if (!action || action === 'remove')
-          return {
-            ...nestedObjectClone,
-            ...data,
-            children: [
-              ...nestedObjectClone.children.filter((child) =>
-                data.children
-                  ? !data.children.map((i) => i.id).includes(child.id)
-                  : child
-              ),
-            ],
-          };
-      }
+  const editById = (
+    index: number,
+    id: number | string,
+    data: Partial<INestedObject>,
+    action: 'replace' | 'add' | 'remove' = 'add',
+    nestedObject?: INestedObject
+  ) => {
+    const targetTree = treesData[index];
+    let nestedObjectClone = nestedObject
+      ? { ...nestedObject }
+      : { ...targetTree };
+    nestedObjectClone = clone(nestedObjectClone);
 
-      if (!nestedObjectClone.children)
-        return nestedObjectClone as INestedObject;
-
-      const newChildren: INestedObject[] = nestedObjectClone.children.map(
-        (child) => {
-          return editById(index, id, data, action, child);
-        }
-      );
-
-      return {
-        ...nestedObjectClone,
-        children: newChildren || [],
-      } as INestedObject;
-    },
-    []
-  );
-
-  const addChildrenById = useCallback(
-    (
-      index: number,
-      id: number | string,
-      data: INestedObject[],
-      nestedObject?: INestedObject
-    ) => {
-      const targetTree = treesData[index];
-      let nestedObjectClone = nestedObject
-        ? { ...nestedObject }
-        : { ...targetTree };
-      nestedObjectClone = clone(nestedObjectClone);
-
-      if (nestedObjectClone.id === id) {
+    if (nestedObjectClone.id === id) {
+      if (!action || action === 'replace')
+        return { ...nestedObjectClone, ...data };
+      if (!action || action === 'add')
         return {
           ...nestedObjectClone,
-          children: [...nestedObjectClone.children, ...(data ? data : [])],
+          ...data,
+          children: [
+            ...nestedObjectClone.children,
+            ...(data.children ? data.children : []),
+          ],
         };
+      if (!action || action === 'remove')
+        return {
+          ...nestedObjectClone,
+          ...data,
+          children: [
+            ...nestedObjectClone.children.filter((child) =>
+              data.children
+                ? !data.children.map((i) => i.id).includes(child.id)
+                : child
+            ),
+          ],
+        };
+    }
+
+    if (!nestedObjectClone.children) return nestedObjectClone as INestedObject;
+
+    const newChildren: INestedObject[] = nestedObjectClone.children.map(
+      (child) => {
+        return editById(index, id, data, action, child);
       }
+    );
 
-      if (!nestedObjectClone.children)
-        return nestedObjectClone as INestedObject;
+    return {
+      ...nestedObjectClone,
+      children: newChildren || [],
+    } as INestedObject;
+  };
 
-      const newChildren: INestedObject[] = nestedObjectClone.children.map(
-        (child) => {
-          return addChildrenById(index, id, data, child);
-        }
-      );
+  const addChildrenById = (
+    index: number,
+    id: number | string,
+    data: INestedObject[],
+    nestedObject?: INestedObject
+  ) => {
+    const targetTree = treesData[index];
+    let nestedObjectClone = nestedObject
+      ? { ...nestedObject }
+      : { ...targetTree };
+    nestedObjectClone = clone(nestedObjectClone);
 
+    if (nestedObjectClone.id === id) {
       return {
         ...nestedObjectClone,
-        children: newChildren || [],
-      } as INestedObject;
-    },
-    []
-  );
+        children: [...nestedObjectClone.children, ...(data ? data : [])],
+      };
+    }
+
+    if (!nestedObjectClone.children) return nestedObjectClone as INestedObject;
+
+    const newChildren: INestedObject[] = nestedObjectClone.children.map(
+      (child) => {
+        return addChildrenById(index, id, data, child);
+      }
+    );
+
+    return {
+      ...nestedObjectClone,
+      children: newChildren || [],
+    } as INestedObject;
+  };
 
   // const updateTree = useCallback((newNestedObject: INestedObject) => {
   //   setHierarchy(newNestedObject);
@@ -119,94 +119,91 @@ export function HierarchyTreesContextProvider({
 
   // const getTree = () => hierarchy;
 
-  const removeById = useCallback(
-    (
-      index: number,
-      id: number | string,
-      dataToRemove: Array<number | string>,
-      nestedObject?: INestedObject
-    ) => {
-      const targetTree = treesData[index];
-      let nestedObjectClone = nestedObject
-        ? { ...nestedObject }
-        : { ...targetTree };
-      nestedObjectClone = clone(nestedObjectClone);
+  const removeById = (
+    index: number,
+    id: number | string,
+    dataToRemove: Array<number | string>,
+    nestedObject?: INestedObject
+  ) => {
+    const targetTree = treesData[index];
+    let nestedObjectClone = nestedObject
+      ? { ...nestedObject }
+      : { ...targetTree };
+    nestedObjectClone = clone(nestedObjectClone);
 
-      if (nestedObjectClone.id === id) {
-        return {
-          ...nestedObjectClone,
-          ...dataToRemove,
-          children: [
-            ...nestedObjectClone.children.filter((child) =>
-              dataToRemove
-                ? !dataToRemove.map((i) => i).includes(child.id)
-                : !child
-            ),
-          ],
-        };
-      }
-
-      if (!nestedObjectClone.children)
-        return nestedObjectClone as INestedObject;
-
-      const newChildren: INestedObject[] = nestedObjectClone.children.map(
-        (child) => {
-          return removeById(index, id, dataToRemove, child);
-        }
-      );
-
+    if (nestedObjectClone.id === id) {
       return {
         ...nestedObjectClone,
-        children: newChildren || [],
-      } as INestedObject;
-    },
-    []
-  );
-
-  const findParentByChildId = useCallback(
-    (index: number, id: number | string, nestsObject?: INestedObject) => {
-      const targetTree = treesData[index];
-      let nestedObject = nestsObject ? { ...nestsObject } : { ...targetTree };
-      nestedObject = clone(nestedObject);
-
-      const loop = (
-        childObject: INestedObject,
-        parentObject: INestedObject | null,
-        arrayParentIdPaths = [] as Array<number | string>
-      ) => {
-        const array: Array<number | string> = [...arrayParentIdPaths];
-
-        if (parentObject?.id) array.push(parentObject.id);
-
-        if (childObject.id === id) {
-          return { parent: parentObject, path: array };
-        }
-
-        if (!childObject?.children) return { parent: null, path: [] };
-
-        let parent: {
-          parent: INestedObject | null;
-          path: Array<number | string>;
-        } = { parent: null, path: [] };
-
-        childObject.children.map((child) => {
-          const loopParent = loop(child, childObject, array);
-          if (loopParent.parent !== null) {
-            parent = loopParent;
-          }
-        });
-
-        return parent;
+        ...dataToRemove,
+        children: [
+          ...nestedObjectClone.children.filter((child) =>
+            dataToRemove
+              ? !dataToRemove.map((i) => i).includes(child.id)
+              : !child
+          ),
+        ],
       };
+    }
 
-      const parentData = loop(nestedObject, null);
+    if (!nestedObjectClone.children) return nestedObjectClone as INestedObject;
 
-      return parentData;
-    },
-    []
-  );
+    const newChildren: INestedObject[] = nestedObjectClone.children.map(
+      (child) => {
+        return removeById(index, id, dataToRemove, child);
+      }
+    );
 
-  const findById = useCallback((
+    return {
+      ...nestedObjectClone,
+      children: newChildren || [],
+    } as INestedObject;
+  };
+
+  const findParentByChildId = (
+    index: number,
+    id: number | string,
+    nestsObject?: INestedObject
+  ) => {
+    const targetTree = treesData[index];
+    let nestedObject = nestsObject ? { ...nestsObject } : { ...targetTree };
+    nestedObject = clone(nestedObject);
+
+    const loop = (
+      childObject: INestedObject,
+      parentObject: INestedObject | null,
+      arrayParentIdPaths = [] as Array<number | string>
+    ) => {
+      const array: Array<number | string> = [...arrayParentIdPaths];
+
+      if (parentObject?.id) array.push(parentObject.id);
+
+      if (childObject.id === id) {
+        return { parent: parentObject, path: array };
+      }
+
+      if (!childObject?.children) return { parent: null, path: [] };
+
+      let parent: {
+        parent: INestedObject | null;
+        path: Array<number | string>;
+      } = { parent: null, path: [] };
+
+      childObject.children.map((child) => {
+        const loopParent = loop(child, childObject, array);
+        if (loopParent.parent !== null) {
+          parent = loopParent;
+        }
+      });
+
+      return parent;
+    };
+
+    const parentData = loop(nestedObject, null);
+
+    return parentData;
+  };
+
+  const findById = (
     // nestedObject: INestedObject,
     index: number,
     id: number | string,
@@ -236,7 +233,7 @@ export function HierarchyTreesContextProvider({
     const Item = loop(nestedObject, id);
 
     return Item;
-  }, []);
+  };
 
   const isChild = (
     index: number,
@@ -298,6 +295,7 @@ export function HierarchyTreesContextProvider({
         isDirectChild,
         isChild,
         isParent,
+        updateTree,
       }}
     >
       {children}

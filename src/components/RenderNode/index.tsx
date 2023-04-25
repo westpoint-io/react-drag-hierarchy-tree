@@ -9,6 +9,7 @@ import { OrgTreeNode } from './styles';
 export const RenderNode = ({
   data,
   prop,
+  index,
   first,
   mock,
   hierarchyProps,
@@ -48,9 +49,11 @@ export const RenderNode = ({
         data={data}
         prop={prop}
         mock={mock}
+        index={index}
       />
       {(!prop.collapsable || expand) && (
         <RenderChildren
+          index={index}
           data={data}
           list={data.children}
           prop={prop}
