@@ -1,135 +1,35 @@
 import clone from 'clone';
-import React, {
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useImperativeHandle,
-  useRef,
-  useState,
-} from 'react';
+import React, { createContext, useCallback, useContext, useState } from 'react';
 
-import {
-  IHierarchyContextData,
-  INestedObject,
-  IParsedArray,
-  ISidebarDrawerProps,
-} from '../interfaces';
+import { IHierarchyTreesContext, INestedObject } from '../interfaces';
 
-const HierarchyContext = createContext({} as IHierarchyContextData);
+const HierarchyContext = createContext({} as IHierarchyTreesContext);
 
-export function HierarchyContextProvider({
+export function HierarchyTreesContextProvider({
   children,
-  onExpandNodes,
-  treeRef,
-  data,
-}: ISidebarDrawerProps): JSX.Element {
-  const [hierarchy, setHierarchy] = useState<INestedObject>(data);
-  const hierarchyRef = useRef<INestedObject>(data);
-  const draggingItemRef = useRef<INestedObject>(null);
+}: {
+  children: React.ReactNode;
+}): JSX.Element {
+  const [treesData, setTreesData] = useState<INestedObject[]>([]);
 
-  useEffect(() => {
-    hierarchyRef.current = hierarchy;
-  }, [hierarchy]);
-
-  const nestedObjectToArray = useCallback((data: INestedObject) => {
-    const array: IParsedArray[] = [];
-
-    const loopChildren = (
-      dataChildren: INestedObject,
-      parentId?: number | string
-    ) => {
-      const insert = {
-        id: dataChildren.id,
-        label: dataChildren.label,
-        parentId: null as number | string | null,
-      };
-      if (parentId || typeof parentId === 'number') {
-        insert.parentId = parentId;
-      }
-      array.push(insert);
-      if (
-        Array.isArray(dataChildren.children) &&
-        dataChildren.children.length > 0
-      )
-        dataChildren.children.map((child) => {
-          loopChildren(child, dataChildren.id);
-        });
-    };
-
-    loopChildren(data);
-
-    return array;
+  const addTree = useCallback((tree: INestedObject) => {
+    const treeIndex = treesData.length + 1;
+    setTreesData((current) => [...current, tree]);
+    return treeIndex;
   }, []);
-
-  const arrayToNestedObject = useCallback(
-    (data: IParsedArray[]): INestedObject => {
-      const first = data.filter((i) => !i.parentId);
-      // let array = [...data];
-      if (first.length !== 1)
-        return {
-          id: 0,
-          children: [],
-          label: 'error',
-        } as INestedObject;
-
-      let nestedObject: INestedObject = {
-        id: first[0].id,
-        label: first[0].label,
-        children: [],
-      };
-
-      const loopArray = (
-        dataArray: IParsedArray[],
-        parentId: number | string
-      ) => {
-        const children = [] as INestedObject[];
-        dataArray.map((child) => {
-          if (child.parentId === parentId) {
-            const insert = {
-              id: child.id,
-              label: child.label,
-              children: [] as INestedObject[],
-            };
-            children.push(insert);
-          }
-        });
-
-        if (children.length === 0) return;
-
-        const newNestedObject = editById(
-          parentId,
-          {
-            children,
-          },
-          'replace',
-          nestedObject
-        );
-
-        nestedObject = newNestedObject;
-
-        children.map((childLoop) => {
-          loopArray(dataArray, childLoop.id);
-        });
-      };
-
-      loopArray(data, first[0].id);
-
-      return nestedObject;
-    },
-    []
-  );
 
   const editById = useCallback(
     (
+      index: number,
       id: number | string,
       data: Partial<INestedObject>,
       action: 'replace' | 'add' | 'remove' = 'add',
       nestedObject?: INestedObject
     ) => {
+      const targetTree = treesData[index];
       let nestedObjectClone = nestedObject
         ? { ...nestedObject }
-        : { ...hierarchyRef.current };
+        : { ...targetTree };
       nestedObjectClone = clone(nestedObjectClone);
 
       if (nestedObjectClone.id === id) {
@@ -163,7 +63,7 @@ export function HierarchyContextProvider({
 
       const newChildren: INestedObject[] = nestedObjectClone.children.map(
         (child) => {
-          return editById(id, data, action, child);
+          return editById(index, id, data, action, child);
         }
       );
 
@@ -177,13 +77,15 @@ export function HierarchyContextProvider({
 
   const addChildrenById = useCallback(
     (
+      index: number,
       id: number | string,
       data: INestedObject[],
       nestedObject?: INestedObject
     ) => {
+      const targetTree = treesData[index];
       let nestedObjectClone = nestedObject
         ? { ...nestedObject }
-        : { ...hierarchyRef.current };
+        : { ...targetTree };
       nestedObjectClone = clone(nestedObjectClone);
 
       if (nestedObjectClone.id === id) {
@@ -198,7 +100,7 @@ export function HierarchyContextProvider({
 
       const newChildren: INestedObject[] = nestedObjectClone.children.map(
         (child) => {
-          return addChildrenById(id, data, child);
+          return addChildrenById(index, id, data, child);
         }
       );
 
@@ -210,22 +112,24 @@ export function HierarchyContextProvider({
     []
   );
 
-  const updateTree = useCallback((newNestedObject: INestedObject) => {
-    setHierarchy(newNestedObject);
-    hierarchyRef.current = newNestedObject;
-  }, []);
+  // const updateTree = useCallback((newNestedObject: INestedObject) => {
+  //   setHierarchy(newNestedObject);
+  //   hierarchyRef.current = newNestedObject;
+  // }, []);
 
-  const getTree = () => hierarchy;
+  // const getTree = () => hierarchy;
 
   const removeById = useCallback(
     (
+      index: number,
       id: number | string,
       dataToRemove: Array<number | string>,
       nestedObject?: INestedObject
     ) => {
+      const targetTree = treesData[index];
       let nestedObjectClone = nestedObject
         ? { ...nestedObject }
-        : { ...hierarchyRef.current };
+        : { ...targetTree };
       nestedObjectClone = clone(nestedObjectClone);
 
       if (nestedObjectClone.id === id) {
@@ -247,7 +151,7 @@ export function HierarchyContextProvider({
 
       const newChildren: INestedObject[] = nestedObjectClone.children.map(
         (child) => {
-          return removeById(id, dataToRemove, child);
+          return removeById(index, id, dataToRemove, child);
         }
       );
 
@@ -260,10 +164,9 @@ export function HierarchyContextProvider({
   );
 
   const findParentByChildId = useCallback(
-    (id: number | string, nestsObject?: INestedObject) => {
-      let nestedObject = nestsObject
-        ? { ...nestsObject }
-        : { ...hierarchyRef.current };
+    (index: number, id: number | string, nestsObject?: INestedObject) => {
+      const targetTree = treesData[index];
+      let nestedObject = nestsObject ? { ...nestsObject } : { ...targetTree };
       nestedObject = clone(nestedObject);
 
       const loop = (
@@ -305,12 +208,12 @@ export function HierarchyContextProvider({
 
   const findById = useCallback((
     // nestedObject: INestedObject,
+    index: number,
     id: number | string,
     nestsObject?: INestedObject
   ) => {
-    let nestedObject = nestsObject
-      ? { ...nestsObject }
-      : { ...hierarchyRef.current };
+    const targetTree = treesData[index];
+    let nestedObject = nestsObject ? { ...nestsObject } : { ...targetTree };
     nestedObject = clone(nestedObject);
 
     const loop = (nestedObject: INestedObject, itemId: number | string) => {
@@ -335,13 +238,21 @@ export function HierarchyContextProvider({
     return Item;
   }, []);
 
-  const isChild = (parentId: number | string, childId: number | string) => {
-    const { path } = findParentByChildId(childId);
+  const isChild = (
+    index: number,
+    parentId: number | string,
+    childId: number | string
+  ) => {
+    const { path } = findParentByChildId(index, childId);
     return path.includes(parentId);
   };
 
-  const isParent = (parentId: number | string, childId: number | string) => {
-    const parent = findById(parentId);
+  const isParent = (
+    index: number,
+    parentId: number | string,
+    childId: number | string
+  ) => {
+    const parent = findById(index, parentId);
     if (!parent) return false;
     const children = getAllChildrenIds(parent);
     if (children.includes(childId)) return true;
@@ -349,10 +260,11 @@ export function HierarchyContextProvider({
   };
 
   const isDirectChild = (
+    index: number,
     parentId: number | string,
     childId: number | string
   ) => {
-    const { parent } = findParentByChildId(childId);
+    const { parent } = findParentByChildId(index, childId);
     const id = parent?.id;
     return id === parentId;
   };
@@ -374,55 +286,18 @@ export function HierarchyContextProvider({
     return childrenIds;
   };
 
-  useImperativeHandle(
-    treeRef,
-    () => {
-      return {
-        onExpandNodes,
-        findById,
-        findParentByChildId,
-        removeById,
-        editById,
-        addChildrenById,
-        updateTree,
-        getTree,
-        nestedObjectToArray,
-        arrayToNestedObject,
-        data: hierarchyRef.current,
-      };
-    },
-    [
-      addChildrenById,
-      getTree,
-      arrayToNestedObject,
-      editById,
-      findById,
-      findParentByChildId,
-      nestedObjectToArray,
-      onExpandNodes,
-      removeById,
-      updateTree,
-    ]
-  );
-
   return (
     <HierarchyContext.Provider
       value={{
-        draggingItemRef,
-        hierarchyRef,
-        hierarchy,
-        setHierarchy,
-        nestedObjectToArray,
-        arrayToNestedObject,
+        treesData,
+        addTree,
         editById,
         removeById,
         findParentByChildId,
         findById,
-        isChild,
         isDirectChild,
+        isChild,
         isParent,
-        updateTree,
-        getTree,
       }}
     >
       {children}
@@ -430,5 +305,4 @@ export function HierarchyContextProvider({
   );
 }
 
-export const useHierarchyData = (): IHierarchyContextData =>
-  useContext(HierarchyContext);
+export const useHierarchyData = () => useContext(HierarchyContext);

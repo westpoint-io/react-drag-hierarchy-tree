@@ -4,7 +4,13 @@ import { IRenderChildren } from '../interfaces';
 import { RenderNode } from '../RenderNode';
 import { ChildrenComponent } from './styles';
 
-export const RenderChildren = ({ list, data, prop, mock }: IRenderChildren) => {
+export const RenderChildren = ({
+  list,
+  data,
+  prop,
+  mock,
+  hierarchyProps,
+}: IRenderChildren) => {
   if (Array.isArray(list) && list.length) {
     return (
       <ChildrenComponent
@@ -16,7 +22,13 @@ export const RenderChildren = ({ list, data, prop, mock }: IRenderChildren) => {
       >
         {list.map((item) => {
           return (
-            <RenderNode mock={mock} key={item.id} data={item} prop={prop} />
+            <RenderNode
+              mock={mock}
+              key={item.id}
+              data={item}
+              prop={prop}
+              hierarchyProps={hierarchyProps}
+            />
           );
         })}
       </ChildrenComponent>

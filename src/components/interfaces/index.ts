@@ -18,6 +18,7 @@ export interface IRenderChildren {
   data: INestedObject;
   prop: IOrgTreeNodeProps;
   mock?: boolean;
+  hierarchyProps: Omit<IHierarchyHook, 'hierarchy'>;
 }
 
 export interface IRender {

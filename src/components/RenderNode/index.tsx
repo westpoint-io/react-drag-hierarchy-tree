@@ -55,6 +55,7 @@ export const RenderNode = ({
           list={data.children}
           prop={prop}
           mock={mock}
+          hierarchyProps={hierarchyProps}
         />
       )}
     </OrgTreeNode>

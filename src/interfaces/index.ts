@@ -32,8 +32,14 @@ interface IRenderCard {
   canDrop: boolean;
 }
 
-export interface IOrgTreeProps {
-  data: INestedObject;
+export interface INodeTree {
+  label: 'label';
+  expand: 'expand';
+  children: 'children';
+}
+
+export interface IRenderTrees {
+  data: INestedObject[];
   horizontal?: boolean;
   collapsable?: boolean;
   expandAll?: boolean;
@@ -48,10 +54,8 @@ export interface IOrgTreeProps {
   cardStyle?: CSSProperties;
 }
 
-export interface INodeTree {
-  label: 'label';
-  expand: 'expand';
-  children: 'children';
+export interface IOrgTreeProps extends Omit<IRenderTrees, 'data'> {
+  data: INestedObject;
 }
 
 interface IRelationship {
@@ -65,7 +69,6 @@ interface IRelationships {
 }
 
 export interface IOrgTreeNodeProps extends IOrgTreeProps {
-  treeRef: ForwardedRef<any>;
   node: INodeTree;
   expandAll: boolean;
   onExpandNodes: () => void;
@@ -83,6 +86,50 @@ export interface IParsedArray {
   id: string | number;
   label: string;
   parentId: string | number | null;
+}
+
+export interface IHierarchyTreesContext {
+  treesData: INestedObject[];
+  addTree: (tree: INestedObject) => number;
+  editById: (
+    index: number,
+    id: number | string,
+    data: Partial<INestedObject>,
+    action?: 'replace' | 'add' | 'remove',
+    nestedObject?: INestedObject
+  ) => INestedObject;
+  removeById: (
+    index: number,
+    id: number | string,
+    idsToRemove: Array<number | string>,
+    nestedObject?: INestedObject
+  ) => INestedObject;
+  findParentByChildId: (
+    index: number,
+    id: number | string,
+    nestedObject?: INestedObject
+  ) => { parent: INestedObject | null; path: Array<number | string> };
+  findById: (
+    index: number,
+    // nestedObject: INestedObject,
+    id: number | string,
+    nestedObject?: INestedObject
+  ) => INestedObject | null;
+  isChild: (
+    index: number,
+    parentId: number | string,
+    childId: number | string
+  ) => boolean;
+  isDirectChild: (
+    index: number,
+    parentId: number | string,
+    childId: number | string
+  ) => boolean;
+  isParent: (
+    index: number,
+    parentId: number | string,
+    childId: number | string
+  ) => boolean;
 }
 
 export interface IHierarchyContextData {
@@ -122,7 +169,47 @@ export interface IHierarchyContextData {
   getTree: () => INestedObject;
 }
 
-export interface IHierarchyHook extends IHierarchyContextData {}
+export interface IHierarchyHook {
+  hierarchyRef: MutableRefObject<INestedObject>;
+  draggingItemRef: MutableRefObject<INestedObject | null>;
+  hierarchy: INestedObject;
+  setHierarchy: Dispatch<SetStateAction<INestedObject>>;
+  editById: (
+    id: number | string,
+    data: Partial<INestedObject>,
+    action?: 'replace' | 'add' | 'remove',
+    nestedObject?: INestedObject
+  ) => INestedObject | undefined;
+  removeById: (
+    id: number | string,
+    idsToRemove: Array<number | string>,
+    nestedObject?: INestedObject
+  ) => INestedObject | undefined;
+  findParentByChildId: (
+    id: number | string,
+    nestedObject?: INestedObject
+  ) =>
+    | { parent: INestedObject | null; path: Array<number | string> }
+    | undefined;
+  findById: (
+    // nestedObject: INestedObject,
+    id: number | string,
+    nestedObject?: INestedObject
+  ) => INestedObject | null | undefined;
+  isChild: (
+    parentId: number | string,
+    childId: number | string
+  ) => boolean | undefined;
+  isDirectChild: (
+    parentId: number | string,
+    childId: number | string
+  ) => boolean | undefined;
+  isParent: (
+    parentId: number | string,
+    childId: number | string
+  ) => boolean | undefined;
+  // updateTree: (index: number, nestedObject: INestedObject) => void;
+}
 
 export interface ISidebarDrawerProps {
   data: any;
@@ -133,8 +220,6 @@ export interface ISidebarDrawerProps {
 
 export interface IHierarchyProps {
   data: any;
-  onExpandNodes: () => void;
-  treeRef: ForwardedRef<any>;
 }
 
 export type IExpandNodes = () => void | undefined;

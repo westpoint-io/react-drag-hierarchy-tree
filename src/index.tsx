@@ -1,6 +1,7 @@
 import { useTree } from './hooks/useTree';
-import { OrgTreeComponent } from './OrgTree';
+
+import { RenderTrees } from './components/RenderTrees';
 
 export { useTree };
 
-export default OrgTreeComponent;
+export default RenderTrees;

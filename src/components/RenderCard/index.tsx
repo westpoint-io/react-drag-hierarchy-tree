@@ -139,7 +139,9 @@ export const RenderCard = ({
     const dragItem = findById(drag.id);
     const dropItem = data;
 
-    const { parent: parentDragItem } = findParentByChildId(drag.id);
+    const result = findParentByChildId(drag.id);
+    if (!result) return;
+    const { parent: parentDragItem } = result;
 
     if (parentDragItem && dragItem) {
       const newParent = {
@@ -162,8 +164,10 @@ export const RenderCard = ({
         removedDragItemHierarchy
       );
 
-      setHierarchy(addedDragItemHierarchy);
-      hierarchyRef.current = addedDragItemHierarchy;
+      if (addedDragItemHierarchy) {
+        setHierarchy(addedDragItemHierarchy);
+        hierarchyRef.current = addedDragItemHierarchy;
+      }
 
       const oldRelationship = { parent: parentDragItem.id, child: dragItem.id };
       const newRelationship = { parent: dropItem.id, child: dragItem.id };
