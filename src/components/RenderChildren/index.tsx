@@ -9,7 +9,6 @@ export const RenderChildren = ({
   data,
   prop,
   mock,
-  index,
   hierarchyProps,
 }: IRenderChildren) => {
   if (Array.isArray(list) && list.length) {
@@ -24,7 +23,6 @@ export const RenderChildren = ({
         {list.map((item) => {
           return (
             <RenderNode
-              index={index}
               mock={mock}
               key={item.id}
               data={item}

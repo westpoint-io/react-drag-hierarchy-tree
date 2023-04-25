@@ -4,20 +4,75 @@ import * as ReactDOM from 'react-dom';
 import OrgTreeComponent, { useTree } from '../src';
 import { data } from './utils/data';
 
+const data1 = {
+  id: 1,
+  label: 'President',
+  children: [
+    {
+      id: 2,
+      label: 'Administrative',
+      children: [
+        {
+          id: 4,
+          label: 'Manager',
+          children: [
+            {
+              id: 5,
+              label: 'Office 1',
+              children: [],
+            },
+          ],
+        },
+        {
+          id: 6,
+          label: 'Financial',
+          children: [
+            {
+              id: 7,
+              label: 'Accountant',
+              children: [
+                {
+                  id: 10,
+                  label: 'Office 4',
+                  children: [],
+                },
+              ],
+            },
+            {
+              id: 11,
+              label: 'Office 5',
+              children: [],
+            },
+            {
+              id: 12,
+              label: 'Office 6',
+              children: [],
+            },
+          ],
+        },
+      ],
+    },
+  ],
+};
+
+const data2 = {
+  id: 1,
+  label: 'President',
+  children: [
+    {
+      id: 36712963,
+      label: 'dhskhdkashd',
+      children: [],
+    },
+  ],
+};
+
 const App = () => {
-  const { treeRef } = useTree();
-
-  const onClick = () => {
-    treeRef.current?.onExpandNodes();
-  };
-
   return (
     <div>
-      <button onClick={onClick}>close/open</button>
       <OrgTreeComponent
-        data={data}
-        ref={treeRef}
-        horizontal
+        data={[data1, data2]}
+        collapsable={false}
         // cardStyle={{ fontSize: 1 }}
         // strokeColor={'red'}
         // strokeWidth={'1px'}
@@ -35,14 +90,6 @@ const App = () => {
         //     <button>click</button>
         //   </div>
         // )}
-      />
-      <OrgTreeComponent
-        renderButton={({ isCollapsed, onClick }) => (
-          <div onClick={onClick}>{isCollapsed ? 'expand' : 'colapse'}</div>
-        )}
-        data={data}
-        strokeColor={'red'}
-        ref={treeRef}
       />
     </div>
   );

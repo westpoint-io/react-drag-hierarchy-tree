@@ -19,7 +19,6 @@ export interface IRenderChildren {
   prop: IOrgTreeNodeProps;
   mock?: boolean;
   hierarchyProps: Omit<IHierarchyHook, 'hierarchy'>;
-  index: number;
 }
 
 export interface IRender {
@@ -28,7 +27,6 @@ export interface IRender {
   first?: boolean;
   mock?: boolean;
   hierarchyProps: Omit<IHierarchyHook, 'hierarchy'>;
-  index: number;
 }
 
 export interface IRenderCard {
@@ -38,5 +36,4 @@ export interface IRenderCard {
   setExpand: Dispatch<SetStateAction<boolean>>;
   mock?: boolean;
   hierarchyProps: Omit<IHierarchyHook, 'hierarchy'>;
-  index: number;
 }
