@@ -15,6 +15,7 @@ export const RenderCard = ({
   setExpand,
   expand,
   mock,
+  root,
   prop: { renderCard, ...prop },
   hierarchyProps,
 }: IRenderCard) => {
@@ -91,10 +92,11 @@ export const RenderCard = ({
   const [{ isDragging }, drag] = useDrag(
     () => ({
       type: 'box',
-      item: data,
+      item: { ...data, treeIndex: index },
       options: {
         dropEffect: 'copy',
       },
+      canDrag: () => !root,
       collect: (monitor) => ({
         isDragging: !!monitor.isDragging(),
       }),
@@ -122,11 +124,15 @@ export const RenderCard = ({
   const onDragEnter = (dropId: string | number) => {
     let dragLabel = 'Place here';
     if (draggingItemRef.current) {
-      const dragItemId = draggingItemRef.current.id;
+      const {
+        id: dragItemId,
+        treeIndex: dragItemIndex,
+      } = draggingItemRef.current;
       const canDrop =
-        dragItemId !== data.id &&
-        !isDirectChild(index, data.id, dragItemId, hierarchyRef.current) &&
-        !isParent(index, dragItemId, data.id, hierarchyRef.current);
+        index !== dragItemIndex ||
+        (dragItemId !== data.id &&
+          !isDirectChild(index, data.id, dragItemId, hierarchyRef.current) &&
+          !isParent(index, dragItemId, data.id, hierarchyRef.current));
       dragLabel = draggingItemRef.current.label;
       if (!canDrop) return;
     }
@@ -191,9 +197,10 @@ export const RenderCard = ({
     () => ({
       accept: 'box',
       canDrop: (item: INestedObject) =>
-        data.id !== item.id &&
-        !isDirectChild(index, data.id, item.id, hierarchyRef.current) &&
-        !isParent(index, item.id, data.id, hierarchyRef.current),
+        index !== item.treeIndex ||
+        (data.id !== item.id &&
+          !isDirectChild(index, data.id, item.id, hierarchyRef.current) &&
+          !isParent(index, item.id, data.id, hierarchyRef.current)),
       drop: (drag: INestedObject) => onDrop(drag),
       collect: (monitor) => ({
         isOver: !!monitor.isOver(),

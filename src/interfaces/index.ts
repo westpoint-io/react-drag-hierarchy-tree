@@ -91,6 +91,7 @@ export interface IParsedArray {
 export interface IHierarchyTreesContext {
   treesData: INestedObject[];
   updateTree: (index: number, tree: INestedObject) => void;
+  getTree: (index: number) => INestedObject;
   editById: (
     index: number,
     id: number | string,

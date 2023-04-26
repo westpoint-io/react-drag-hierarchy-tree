@@ -48,6 +48,7 @@ export const RenderNode = ({
         data={data}
         prop={prop}
         mock={mock}
+        root={first}
       />
       {(!prop.collapsable || expand) && (
         <RenderChildren

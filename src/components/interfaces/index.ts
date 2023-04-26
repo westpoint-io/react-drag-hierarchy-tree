@@ -36,4 +36,5 @@ export interface IRenderCard {
   setExpand: Dispatch<SetStateAction<boolean>>;
   mock?: boolean;
   hierarchyProps: Omit<IHierarchyHook, 'hierarchy'>;
+  root?: boolean;
 }

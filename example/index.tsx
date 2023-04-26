@@ -62,7 +62,19 @@ const data2 = {
     {
       id: 36712963,
       label: 'dhskhdkashd',
-      children: [],
+      children: [
+        {
+          id: 4341,
+          label: 'President',
+          children: [
+            {
+              id: 36714234232963,
+              label: 'dhskhdkashd',
+              children: [],
+            },
+          ],
+        },
+      ],
     },
   ],
 };
@@ -71,7 +83,7 @@ const App = () => {
   return (
     <div>
       <OrgTreeComponent
-        data={[{ ...data1 }]}
+        data={[{ ...data1 }, { ...data2 }]}
         collapsable={false}
         renderCard={({ label, canDrop }) => (
           <div style={{ padding: 30, background: canDrop ? 'red' : 'beige' }}>
