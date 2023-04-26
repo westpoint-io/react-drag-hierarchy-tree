@@ -19,7 +19,7 @@ export const RenderCard = ({
   prop: { renderCard, ...prop },
   hierarchyProps,
 }: IRenderCard) => {
-  const { setHierarchy, hierarchyRef, draggingItemRef } = hierarchyProps;
+  const { hierarchyRef, draggingItemRef } = hierarchyProps;
   const {
     editById,
     isDirectChild,
@@ -144,11 +144,14 @@ export const RenderCard = ({
   };
 
   const onDrop = (drag: INestedObject) => {
-    const dragItem = findById(index, drag.id, hierarchyRef.current);
+    const dragIndex = drag.treeIndex;
+
+    const dragItem = findById(dragIndex, drag.id);
     const dropItem = data;
 
-    const result = findParentByChildId(index, drag.id, hierarchyRef.current);
-    if (!result) return;
+    const isSameTree = dragIndex === index;
+
+    const result = findParentByChildId(dragIndex, drag.id);
     const { parent: parentDragItem } = result;
 
     if (parentDragItem && dragItem) {
@@ -158,11 +161,10 @@ export const RenderCard = ({
       };
 
       const removedDragItemHierarchy = editById(
-        index,
+        dragIndex,
         parentDragItem.id,
         newParent,
-        'replace',
-        hierarchyRef.current
+        'replace'
       );
 
       const addedDragItemHierarchy = editById(
@@ -172,14 +174,12 @@ export const RenderCard = ({
           children: [dragItem],
         },
         'add',
-        removedDragItemHierarchy
+        isSameTree ? removedDragItemHierarchy : undefined
       );
 
-      if (addedDragItemHierarchy) {
-        setHierarchy(addedDragItemHierarchy);
-        hierarchyRef.current = addedDragItemHierarchy;
-        updateTree(index, addedDragItemHierarchy);
-      }
+      if (!isSameTree) updateTree(dragIndex, removedDragItemHierarchy);
+
+      updateTree(index, addedDragItemHierarchy);
 
       const oldRelationship = { parent: parentDragItem.id, child: dragItem.id };
       const newRelationship = { parent: dropItem.id, child: dragItem.id };

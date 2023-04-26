@@ -3,6 +3,7 @@ import React from 'react';
 import { IOrgTreeNodeProps } from '../interfaces';
 import { RenderNode } from './RenderNode';
 import { useHierarchy } from '../hooks/useHierarchy';
+import { useIndex } from '../context/IndexContextProvider';
 
 export const isLastNode = (data: any, prop: IOrgTreeNodeProps) => {
   const node = prop.node;
@@ -18,10 +19,8 @@ const mock_data = {
 };
 
 export const TreeNode = (props: IOrgTreeNodeProps) => {
-  const { data } = props;
-  const { hierarchy, ...hierarchyProps } = useHierarchy({
-    data,
-  });
+  const { index } = useIndex();
+  const { hierarchy, ...hierarchyProps } = useHierarchy({ index });
 
   return (
     <>

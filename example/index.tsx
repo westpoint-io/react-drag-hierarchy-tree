@@ -57,19 +57,19 @@ const data1 = {
 
 const data2 = {
   id: 1,
-  label: 'President',
+  label: 'Parent',
   children: [
     {
       id: 36712963,
-      label: 'dhskhdkashd',
+      label: 'Child',
       children: [
         {
           id: 4341,
-          label: 'President',
+          label: 'GrandChild',
           children: [
             {
               id: 36714234232963,
-              label: 'dhskhdkashd',
+              label: 'GrandGrandChild',
               children: [],
             },
           ],

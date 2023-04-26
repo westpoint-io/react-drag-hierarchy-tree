@@ -188,7 +188,7 @@ export interface ISidebarDrawerProps {
 }
 
 export interface IHierarchyProps {
-  data: any;
+  index: number;
 }
 
 export type IExpandNodes = () => void | undefined;
