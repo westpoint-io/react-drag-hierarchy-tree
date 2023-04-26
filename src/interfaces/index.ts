@@ -140,6 +140,12 @@ export interface IHierarchyTreesContext {
     childId: number | string,
     nestedObject?: INestedObject
   ) => boolean;
+  addChildrenById: (
+    index: number,
+    id: number | string,
+    data: INestedObject[],
+    nestedObject?: INestedObject
+  ) => INestedObject;
 }
 
 export interface IHierarchyContextData {
@@ -278,4 +284,10 @@ export interface ITreeRefProps {
     childId: number | string,
     nestedObject?: INestedObject
   ) => boolean;
+  addChildrenById: (
+    index: number,
+    id: number | string,
+    data: INestedObject[],
+    nestedObject?: INestedObject
+  ) => INestedObject;
 }

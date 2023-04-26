@@ -351,6 +351,7 @@ export function HierarchyTreesContextProvider({
         isChild,
         isParent,
         getTree,
+        addChildrenById,
       }}
     >
       {children}
