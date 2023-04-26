@@ -58,6 +58,12 @@ export interface IOrgTreeProps extends Omit<IRenderTrees, 'data'> {
   data: INestedObject;
 }
 
+export interface IHierarchyContextProps {
+  children: React.ReactNode;
+  data: INestedObject[];
+  treeDataRef: ForwardedRef<any>;
+}
+
 interface IRelationship {
   parent: string | number;
   child: string | number;
@@ -228,15 +234,48 @@ export type IAddChildrenById = (
 export type IUpdateTree = (nestedObject: INestedObject) => void;
 
 export interface ITreeRefProps {
-  onExpandNodes: IExpandNodes;
-  findById: IFindById;
-  findParentByChildId: IFindParentByChildId;
-  removeById: IRemoveById;
-  editById: IEditById;
-  addChildrenById: IAddChildrenById;
-  updateTree: IUpdateTree;
-  getTree: () => INestedObject;
-  nestedObjectToArray: (data: INestedObject) => IParsedArray[];
-  arrayToNestedObject: (data: IParsedArray[]) => INestedObject;
-  data: INestedObject;
+  updateTree: (index: number, tree: INestedObject) => void;
+  getTree: (index: number) => INestedObject;
+  editById: (
+    index: number,
+    id: number | string,
+    data: Partial<INestedObject>,
+    action?: 'replace' | 'add' | 'remove',
+    nestedObject?: INestedObject
+  ) => INestedObject;
+  removeById: (
+    index: number,
+    id: number | string,
+    idsToRemove: Array<number | string>,
+    nestedObject?: INestedObject
+  ) => INestedObject;
+  findParentByChildId: (
+    index: number,
+    id: number | string,
+    nestedObject?: INestedObject
+  ) => { parent: INestedObject | null; path: Array<number | string> };
+  findById: (
+    index: number,
+    // nestedObject: INestedObject,
+    id: number | string,
+    nestedObject?: INestedObject
+  ) => INestedObject | null;
+  isChild: (
+    index: number,
+    parentId: number | string,
+    childId: number | string,
+    nestedObject?: INestedObject
+  ) => boolean;
+  isDirectChild: (
+    index: number,
+    parentId: number | string,
+    childId: number | string,
+    nestedObject?: INestedObject
+  ) => boolean;
+  isParent: (
+    index: number,
+    parentId: number | string,
+    childId: number | string,
+    nestedObject?: INestedObject
+  ) => boolean;
 }

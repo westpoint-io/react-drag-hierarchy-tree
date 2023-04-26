@@ -10,13 +10,10 @@ export const useHierarchy = ({ index }: IHierarchyProps) => {
   const draggingItemRef = useRef<INestedObject>(null);
 
   useEffect(() => {
-    setHierarchy(treesData[index]);
+    const newData = treesData[index];
+    setHierarchy(newData);
+    hierarchyRef.current = newData;
   }, [treesData]);
-
-  useEffect(() => {
-    console.log('Updating Hierarchy Ref!');
-    hierarchyRef.current = hierarchy;
-  }, [hierarchy]);
 
   return useMemo(() => {
     return {
@@ -24,15 +21,6 @@ export const useHierarchy = ({ index }: IHierarchyProps) => {
       hierarchyRef,
       hierarchy,
       setHierarchy,
-      // updateTree,
-      // getTree,
     };
-  }, [
-    draggingItemRef,
-    hierarchyRef,
-    hierarchy,
-    setHierarchy,
-    // updateTree,
-    // getTree,
-  ]);
+  }, [draggingItemRef, hierarchyRef, hierarchy, setHierarchy]);
 };

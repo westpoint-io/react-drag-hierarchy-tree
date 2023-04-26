@@ -6,19 +6,22 @@ import React, {
   useEffect,
   useRef,
   useState,
+  useImperativeHandle,
 } from 'react';
 
-import { IHierarchyTreesContext, INestedObject } from '../interfaces';
+import {
+  IHierarchyContextProps,
+  IHierarchyTreesContext,
+  INestedObject,
+} from '../interfaces';
 
 const HierarchyContext = createContext({} as IHierarchyTreesContext);
 
 export function HierarchyTreesContextProvider({
   children,
   data,
-}: {
-  children: React.ReactNode;
-  data: INestedObject[];
-}): JSX.Element {
+  treeDataRef,
+}: IHierarchyContextProps): JSX.Element {
   const [treesData, setTreesData] = useState<INestedObject[]>(data);
   const treesRef = useRef<INestedObject[]>(data);
 
@@ -304,6 +307,36 @@ export function HierarchyTreesContextProvider({
 
     return childrenIds;
   }, []);
+
+  useImperativeHandle(
+    treeDataRef,
+    () => ({
+      findById,
+      findParentByChildId,
+      removeById,
+      editById,
+      addChildrenById,
+      updateTree,
+      getTree,
+      getAllChildrenIds,
+      isDirectChild,
+      isParent,
+      isChild,
+    }),
+    [
+      findById,
+      findParentByChildId,
+      removeById,
+      editById,
+      addChildrenById,
+      updateTree,
+      getTree,
+      getAllChildrenIds,
+      isDirectChild,
+      isParent,
+      isChild,
+    ]
+  );
 
   return (
     <HierarchyContext.Provider

@@ -80,9 +80,12 @@ const data2 = {
 };
 
 const App = () => {
+  const { treeRef } = useTree();
+
   return (
     <div>
       <OrgTreeComponent
+        ref={treeRef}
         data={[{ ...data1 }, { ...data2 }]}
         collapsable={false}
         renderCard={({ label, canDrop }) => (
@@ -90,23 +93,6 @@ const App = () => {
             {label}
           </div>
         )}
-        // cardStyle={{ fontSize: 1 }}
-        // strokeColor={'red'}
-        // strokeWidth={'1px'}
-        // buttonBackgroundColor={'red'}
-        // buttonBorderColor={'red'}
-        // renderButton={({ isCollapsed, onClick }) => (
-        //   <button onClick={onClick}>
-        //     {isCollapsed ? 'expand' : 'colapse'}
-        //   </button>
-        // )}
-        // renderCard={({ isDragging, label, labelId, data, isPreviewCard }) => (
-        //   <div style={{ backgroundColor: 'green' }}>
-        //     <span id={labelId}>{label}</span>
-        //     {!isPreviewCard && <p>{data.id}</p>}
-        //     <button>click</button>
-        //   </div>
-        // )}
       />
     </div>
   );
