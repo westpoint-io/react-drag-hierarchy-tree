@@ -30,6 +30,7 @@ interface IRenderCard {
   isPreviewCard: boolean;
   isOver: boolean;
   canDrop: boolean;
+  treeIndex: number;
 }
 
 export interface INodeTree {
@@ -146,6 +147,7 @@ export interface IHierarchyTreesContext {
     data: INestedObject[],
     nestedObject?: INestedObject
   ) => INestedObject;
+  addTree: (tree: INestedObject) => void;
 }
 
 export interface IHierarchyContextData {
@@ -240,6 +242,7 @@ export type IAddChildrenById = (
 export type IUpdateTree = (nestedObject: INestedObject) => void;
 
 export interface ITreeRefProps {
+  addTree: (tree: INestedObject) => void;
   updateTree: (index: number, tree: INestedObject) => void;
   getTree: (index: number) => INestedObject;
   editById: (

@@ -33,6 +33,10 @@ export function HierarchyTreesContextProvider({
     setTreesData((current) => current.map((t, i) => (i === index ? tree : t)));
   }, []);
 
+  const addTree = useCallback((tree: INestedObject) => {
+    setTreesData((current) => [...current, tree]);
+  }, []);
+
   const getTree = useCallback((index: number) => treesRef.current[index], []);
 
   const editById = useCallback(
@@ -322,6 +326,7 @@ export function HierarchyTreesContextProvider({
       isDirectChild,
       isParent,
       isChild,
+      addTree,
     }),
     [
       findById,
@@ -335,6 +340,7 @@ export function HierarchyTreesContextProvider({
       isDirectChild,
       isParent,
       isChild,
+      addTree,
     ]
   );
 
@@ -352,6 +358,7 @@ export function HierarchyTreesContextProvider({
         isParent,
         getTree,
         addChildrenById,
+        addTree,
       }}
     >
       {children}

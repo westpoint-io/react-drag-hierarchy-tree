@@ -237,6 +237,7 @@ export const RenderCard = ({
             isPreviewCard: !!mock,
             isOver,
             canDrop,
+            treeIndex: index,
           })}
           {prop.collapsable && !isLastNode(data, prop) && (
             <RenderBtn
