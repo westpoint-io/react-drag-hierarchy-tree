@@ -1,5 +1,5 @@
 {
-  "version": "0.2.2",
+  "version": "0.2.3",
   "typings": "dist/index.d.ts",
   "description": "An react project for customized and optimize drag and drop hierarchy tree.",
   "keywords": [
@@ -34,7 +34,7 @@
     "build": "tsdx build",
     "test": "tsdx test --passWithNoTests",
     "lint": "tsdx lint",
-    "prepack": "tsdx build",
+    "preinstall": "tsdx build",
     "size": "size-limit",
     "analyze": "size-limit --why",
     "storybook": "start-storybook -p 6006",
