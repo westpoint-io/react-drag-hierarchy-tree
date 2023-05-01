@@ -59,6 +59,29 @@ export const OrgTreeNode = styled.div<ITreeOptions>`
   }
 
   ${(props) =>
+    props.reverse &&
+    css`
+      display: inline-flex;
+      flex-direction: column-reverse;
+      align-items: center;
+      padding-top: 0px;
+      padding-bottom: 20px;
+
+      &:before,
+      &:after {
+        top: unset;
+        bottom: 0;
+      }
+
+      &:not(:first-of-type):before,
+      &:not(:last-of-type):after {
+        border-top: none;
+        border-bottom: 1px solid
+          ${props.strokeColor ? props.strokeColor : '#000'};
+      }
+    `}
+
+  ${(props) =>
     props.horizontal &&
     css`
       display: table-cell;

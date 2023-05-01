@@ -36,6 +36,24 @@ export const ChildrenComponent = styled.div<ITreeOptions>`
   }
 
   ${(props) =>
+    props.reverse &&
+    css`
+      display: flex;
+      padding-top: 0px;
+      padding-bottom: 20px;
+
+      &:before {
+        content: '';
+        position: absolute;
+        top: unset;
+        bottom: 0;
+        left: 50%;
+        width: 0;
+        height: 20px;
+      }
+    `}
+
+  ${(props) =>
     props.horizontal &&
     css`
       display: table-cell;

@@ -29,6 +29,7 @@ export interface INodeTree {
 export interface IRenderTrees {
     data: INestedObject[];
     horizontal?: boolean;
+    reverse?: boolean;
     collapsable?: boolean;
     expandAll?: boolean;
     strokeColor?: string;

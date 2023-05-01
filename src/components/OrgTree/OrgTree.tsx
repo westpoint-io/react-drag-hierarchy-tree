@@ -18,6 +18,7 @@ export const OrgTreeComponent = ({
   collapsable = true,
   expandAll = true,
   horizontal = false,
+  reverse = false,
   ...props
 }: IOrgTreeProps) => {
   const [expandAllNodes, setExpandAllNodes] = useState<boolean>(expandAll);
@@ -29,6 +30,8 @@ export const OrgTreeComponent = ({
     else setExpandAllNodes(true);
   }, [data.id]);
 
+  console.log(reverse);
+
   return (
     <OrgTreeContainer horizontal={horizontal}>
       <OrgTree horizontal={horizontal}>
@@ -36,6 +39,7 @@ export const OrgTreeComponent = ({
           data={data}
           horizontal={horizontal}
           node={node}
+          reverse={reverse}
           onExpandNodes={onExpandNodes}
           collapsable={collapsable}
           expandAll={expandAllNodes}

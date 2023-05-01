@@ -128,13 +128,15 @@ function _createForOfIteratorHelperLoose(o, allowArrayLike) {
   throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
 }
 
-var _templateObject, _templateObject2;
-var ChildrenComponent = /*#__PURE__*/styled.div(_templateObject || (_templateObject = /*#__PURE__*/_taggedTemplateLiteralLoose(["\n  position: relative;\n  margin: 0;\n  padding: 0;\n  list-style-type: none;\n  transition: all 1s ease-in-out;\n\n  &:before,\n  &:after {\n    transition: all 0.35s;\n  }\n\n  padding-top: 20px;\n  display: table;\n\n  &:before {\n    content: '';\n    position: absolute;\n    top: 0;\n    left: 50%;\n    width: 0;\n    height: 20px;\n    border-right: ", "\n      solid ", ";\n  }\n\n  &:after {\n    content: '';\n    display: table;\n    clear: both;\n  }\n\n  ", "\n"])), function (prop) {
+var _templateObject, _templateObject2, _templateObject3;
+var ChildrenComponent = /*#__PURE__*/styled.div(_templateObject || (_templateObject = /*#__PURE__*/_taggedTemplateLiteralLoose(["\n  position: relative;\n  margin: 0;\n  padding: 0;\n  list-style-type: none;\n  transition: all 1s ease-in-out;\n\n  &:before,\n  &:after {\n    transition: all 0.35s;\n  }\n\n  padding-top: 20px;\n  display: table;\n\n  &:before {\n    content: '';\n    position: absolute;\n    top: 0;\n    left: 50%;\n    width: 0;\n    height: 20px;\n    border-right: ", "\n      solid ", ";\n  }\n\n  &:after {\n    content: '';\n    display: table;\n    clear: both;\n  }\n\n  ", "\n\n  ", "\n"])), function (prop) {
   return prop.strokeWidth ? prop.strokeWidth : '1px';
 }, function (prop) {
   return prop.strokeColor ? prop.strokeColor : '#000';
 }, function (props) {
-  return props.horizontal && css(_templateObject2 || (_templateObject2 = _taggedTemplateLiteralLoose(["\n      display: table-cell;\n      padding-top: 0;\n      padding-left: 20px;\n\n      &:before {\n        top: calc(50% + 1px);\n        left: 0;\n        width: 20px;\n        height: 0;\n        border-left: 0;\n        border-top: ", " solid\n          ", ";\n      }\n\n      &:after {\n        display: none;\n      }\n\n      & > .org-tree-node {\n        display: block;\n        padding-left: 20px;\n      }\n    "])), props.strokeWidth ? props.strokeWidth : '1px', props.strokeColor ? props.strokeColor : '#000');
+  return props.reverse && css(_templateObject2 || (_templateObject2 = _taggedTemplateLiteralLoose(["\n      display: flex;\n      padding-top: 0px;\n      padding-bottom: 20px;\n\n      &:before {\n        content: '';\n        position: absolute;\n        top: unset;\n        bottom: 0;\n        left: 50%;\n        width: 0;\n        height: 20px;\n      }\n    "])));
+}, function (props) {
+  return props.horizontal && css(_templateObject3 || (_templateObject3 = _taggedTemplateLiteralLoose(["\n      display: table-cell;\n      padding-top: 0;\n      padding-left: 20px;\n\n      &:before {\n        top: calc(50% + 1px);\n        left: 0;\n        width: 20px;\n        height: 0;\n        border-left: 0;\n        border-top: ", " solid\n          ", ";\n      }\n\n      &:after {\n        display: none;\n      }\n\n      & > .org-tree-node {\n        display: block;\n        padding-left: 20px;\n      }\n    "])), props.strokeWidth ? props.strokeWidth : '1px', props.strokeColor ? props.strokeColor : '#000');
 });
 
 var RenderChildren = function RenderChildren(_ref) {
@@ -149,6 +151,7 @@ var RenderChildren = function RenderChildren(_ref) {
       id: "children_" + data.id,
       className: 'org-tree-node-children',
       horizontal: !!prop.horizontal,
+      reverse: prop.reverse,
       strokeColor: prop.strokeColor,
       strokeWidth: prop.strokeWidth
     }, list.map(function (item) {
@@ -992,7 +995,7 @@ var useDebounce = function useDebounce(fn, delay, continueUnmounted // if want t
   };
 };
 
-var _templateObject$1, _templateObject2$1, _templateObject3, _templateObject4, _templateObject5;
+var _templateObject$1, _templateObject2$1, _templateObject3$1, _templateObject4, _templateObject5;
 var RenderButton = /*#__PURE__*/styled.span(_templateObject$1 || (_templateObject$1 = /*#__PURE__*/_taggedTemplateLiteralLoose(["\n  position: absolute;\n  display: inline-block;\n  top: 100%;\n  left: 50%;\n  width: 20px;\n  height: 20px;\n  z-index: 10;\n  margin-left: -11px;\n  margin-top: 9px;\n  background-color: ", ";\n  border: 1px solid\n    ", ";\n  border-radius: 50%;\n  box-shadow: 0 0 2px rgba(0, 0, 0, 0.15);\n  cursor: pointer;\n  transition: all 0.35s ease;\n\n  :hover {\n    filter: brightness(0.9);\n    transform: scale(1.1);\n  }\n\n  :before,\n  :after {\n    content: '';\n    position: absolute;\n  }\n\n  :before {\n    top: 50%;\n    left: 4px;\n    right: 4px;\n    height: 0;\n    border-top: 1px solid\n      ", ";\n  }\n\n  :after {\n    top: 4px;\n    left: 50%;\n    bottom: 4px;\n    width: 0;\n    border-left: 1px solid\n      ", ";\n  }\n\n  ", "\n\n  ", "\n"])), function (prop) {
   return prop.buttonBackgroundColor ? prop.buttonBackgroundColor : '#fff';
 }, function (prop) {
@@ -1004,7 +1007,7 @@ var RenderButton = /*#__PURE__*/styled.span(_templateObject$1 || (_templateObjec
 }, function (props) {
   return props.expanded && css(_templateObject2$1 || (_templateObject2$1 = _taggedTemplateLiteralLoose(["\n      &:after {\n        border: none;\n      }\n    "])));
 }, function (props) {
-  return props.horizontal && css(_templateObject3 || (_templateObject3 = _taggedTemplateLiteralLoose(["\n      top: 50%;\n      left: 100%;\n      margin-top: -11px;\n      margin-left: 9px;\n    "])));
+  return props.horizontal && css(_templateObject3$1 || (_templateObject3$1 = _taggedTemplateLiteralLoose(["\n      top: 50%;\n      left: 100%;\n      margin-top: -11px;\n      margin-left: 9px;\n    "])));
 });
 var ContainerButton = /*#__PURE__*/styled.div(_templateObject4 || (_templateObject4 = /*#__PURE__*/_taggedTemplateLiteralLoose(["\n  position: absolute;\n  display: inline-block;\n  top: 100%;\n  left: 50%;\n  width: 20px;\n  height: 20px;\n  z-index: 10;\n  margin-left: -11px;\n  margin-top: 9px;\n  background-color: #fff;\n  border: 1px solid #ccc;\n  border-radius: 50%;\n  box-shadow: 0 0 2px rgba(0, 0, 0, 0.15);\n  cursor: pointer;\n  transition: all 0.35s ease;\n\n  ", "\n"])), function (props) {
   return props.horizontal && css(_templateObject5 || (_templateObject5 = _taggedTemplateLiteralLoose(["\n      top: 50%;\n      left: 100%;\n      margin-top: -11px;\n      margin-left: 9px;\n    "])));
@@ -1037,11 +1040,11 @@ var RenderBtn = function RenderBtn(_ref) {
   });
 };
 
-var _templateObject$2, _templateObject2$2, _templateObject3$1, _templateObject4$1, _templateObject5$1, _templateObject6;
+var _templateObject$2, _templateObject2$2, _templateObject3$2, _templateObject4$1, _templateObject5$1, _templateObject6;
 var CardArea = /*#__PURE__*/styled.div(_templateObject$2 || (_templateObject$2 = /*#__PURE__*/_taggedTemplateLiteralLoose(["\n  position: relative;\n  display: inline-block;\n  cursor: move;\n  z-index: 10;\n  ", "\n"])), function (props) {
   return props.horizontal && css(_templateObject2$2 || (_templateObject2$2 = _taggedTemplateLiteralLoose(["\n      display: table-cell;\n      vertical-align: middle;\n    "])));
 });
-var RenderLabel = /*#__PURE__*/styled.div(_templateObject3$1 || (_templateObject3$1 = /*#__PURE__*/_taggedTemplateLiteralLoose(["\n  background-color: white;\n  cursor: grab;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  padding: 0 15px;\n  min-width: 100px;\n  min-height: 45px;\n  z-index: 100000;\n  text-align: center;\n  color: black;\n  position: relative;\n  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.15);\n  border-radius: 5px;\n\n  // no break line\n  white-space: nowrap;\n  text-overflow: ellipsis;\n\n  &.mock_card {\n    border: 1px solid #7de874;\n  }\n\n  ", "\n"])), function (props) {
+var RenderLabel = /*#__PURE__*/styled.div(_templateObject3$2 || (_templateObject3$2 = /*#__PURE__*/_taggedTemplateLiteralLoose(["\n  background-color: white;\n  cursor: grab;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  padding: 0 15px;\n  min-width: 100px;\n  min-height: 45px;\n  z-index: 100000;\n  text-align: center;\n  color: black;\n  position: relative;\n  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.15);\n  border-radius: 5px;\n\n  // no break line\n  white-space: nowrap;\n  text-overflow: ellipsis;\n\n  &.mock_card {\n    border: 1px solid #7de874;\n  }\n\n  ", "\n"])), function (props) {
   return props.isDragging && css(_templateObject4$1 || (_templateObject4$1 = _taggedTemplateLiteralLoose(["\n      cursor: grabbing;\n    "])));
 });
 var RenderCustomCard = /*#__PURE__*/styled.div(_templateObject5$1 || (_templateObject5$1 = /*#__PURE__*/_taggedTemplateLiteralLoose(["\n  position: relative;\n  cursor: grab;\n\n  &.mock_card {\n    border: 1px solid #7de874;\n  }\n"])));
@@ -1539,13 +1542,15 @@ var RenderCard = function RenderCard(_ref) {
   })));
 };
 
-var _templateObject$3, _templateObject2$3;
-var OrgTreeNode = /*#__PURE__*/styled.div(_templateObject$3 || (_templateObject$3 = /*#__PURE__*/_taggedTemplateLiteralLoose(["\n  position: relative;\n  margin: 0;\n  padding: 0;\n  list-style-type: none;\n  padding-left: 20px;\n\n  &:before,\n  &:after {\n    transition: all 0.35s;\n  }\n\n  padding-top: 20px;\n  display: table-cell;\n  vertical-align: top;\n\n  &.is-leaf,\n  &.collapsed {\n    padding-left: 10px;\n    padding-right: 10px;\n  }\n\n  &:before,\n  &:after {\n    content: '';\n    position: absolute;\n    top: 0;\n    left: 0;\n    width: 50%;\n    height: 19px;\n  }\n\n  &:after {\n    left: 50%;\n    border-left: 1px solid\n      ", ";\n  }\n\n  &:not(:first-of-type):before,\n  &:not(:last-of-type):after {\n    border-top: 1px solid\n      ", ";\n  }\n\n  // remove the line of the first label\n  &.org-tree-node-first {\n    padding-top: 0;\n\n    &:before,\n    &:after {\n      border-left: none;\n      opacity: 0;\n    }\n  }\n\n  ", "\n\n  .RdtCant-drop {\n    opacity: 0.5;\n    cursor: no-drop;\n    .org-tree-node-label-inner {\n      background-color: #aaaaaa33;\n    }\n    .org-tree-node-label-inner-personal {\n      opacity: 0.5;\n    }\n  }\n"])), function (prop) {
+var _templateObject$3, _templateObject2$3, _templateObject3$3;
+var OrgTreeNode = /*#__PURE__*/styled.div(_templateObject$3 || (_templateObject$3 = /*#__PURE__*/_taggedTemplateLiteralLoose(["\n  position: relative;\n  margin: 0;\n  padding: 0;\n  list-style-type: none;\n  padding-left: 20px;\n\n  &:before,\n  &:after {\n    transition: all 0.35s;\n  }\n\n  padding-top: 20px;\n  display: table-cell;\n  vertical-align: top;\n\n  &.is-leaf,\n  &.collapsed {\n    padding-left: 10px;\n    padding-right: 10px;\n  }\n\n  &:before,\n  &:after {\n    content: '';\n    position: absolute;\n    top: 0;\n    left: 0;\n    width: 50%;\n    height: 19px;\n  }\n\n  &:after {\n    left: 50%;\n    border-left: 1px solid\n      ", ";\n  }\n\n  &:not(:first-of-type):before,\n  &:not(:last-of-type):after {\n    border-top: 1px solid\n      ", ";\n  }\n\n  // remove the line of the first label\n  &.org-tree-node-first {\n    padding-top: 0;\n\n    &:before,\n    &:after {\n      border-left: none;\n      opacity: 0;\n    }\n  }\n\n  ", "\n\n  ", "\n\n  .RdtCant-drop {\n    opacity: 0.5;\n    cursor: no-drop;\n    .org-tree-node-label-inner {\n      background-color: #aaaaaa33;\n    }\n    .org-tree-node-label-inner-personal {\n      opacity: 0.5;\n    }\n  }\n"])), function (prop) {
   return prop.strokeColor ? prop.strokeColor : '#000';
 }, function (prop) {
   return prop.strokeColor ? prop.strokeColor : '#000';
 }, function (props) {
-  return props.horizontal && css(_templateObject2$3 || (_templateObject2$3 = _taggedTemplateLiteralLoose(["\n      display: table-cell;\n      float: none;\n      padding-top: 0;\n      padding-left: 20px;\n\n      &.is-leaf,\n      &.collapsed {\n        padding-top: 10px;\n        padding-bottom: 10px;\n      }\n\n      &:before,\n      &:after {\n        width: 19px;\n        height: 50%;\n      }\n\n      &:after {\n        top: 50%;\n        left: 0;\n        border-left: 0;\n      }\n\n      &:only-child:before {\n        top: 1px;\n        border-bottom: 1px solid\n          ", ";\n      }\n\n      &:not(:first-of-type):before,\n      &:not(:last-of-type):after {\n        border-top: 0;\n        border-left: 1px solid ", ";\n      }\n\n      &:not(:only-child):after {\n        border-top: 1px solid ", ";\n      }\n\n      // remove the line of the first label\n      &.org-tree-node-first {\n        padding-left: 0;\n\n        &:after {\n          border-left: none;\n          opacity: 0;\n        }\n      }\n    "])), props.strokeColor ? props.strokeColor : '#000', props.strokeColor ? props.strokeColor : '#000', props.strokeColor ? props.strokeColor : '#000');
+  return props.reverse && css(_templateObject2$3 || (_templateObject2$3 = _taggedTemplateLiteralLoose(["\n      display: inline-flex;\n      flex-direction: column-reverse;\n      align-items: center;\n      padding-top: 0px;\n      padding-bottom: 20px;\n\n      &:before,\n      &:after {\n        top: unset;\n        bottom: 0;\n      }\n\n      &:not(:first-of-type):before,\n      &:not(:last-of-type):after {\n        border-top: none;\n        border-bottom: 1px solid\n          ", ";\n      }\n    "])), props.strokeColor ? props.strokeColor : '#000');
+}, function (props) {
+  return props.horizontal && css(_templateObject3$3 || (_templateObject3$3 = _taggedTemplateLiteralLoose(["\n      display: table-cell;\n      float: none;\n      padding-top: 0;\n      padding-left: 20px;\n\n      &.is-leaf,\n      &.collapsed {\n        padding-top: 10px;\n        padding-bottom: 10px;\n      }\n\n      &:before,\n      &:after {\n        width: 19px;\n        height: 50%;\n      }\n\n      &:after {\n        top: 50%;\n        left: 0;\n        border-left: 0;\n      }\n\n      &:only-child:before {\n        top: 1px;\n        border-bottom: 1px solid\n          ", ";\n      }\n\n      &:not(:first-of-type):before,\n      &:not(:last-of-type):after {\n        border-top: 0;\n        border-left: 1px solid ", ";\n      }\n\n      &:not(:only-child):after {\n        border-top: 1px solid ", ";\n      }\n\n      // remove the line of the first label\n      &.org-tree-node-first {\n        padding-left: 0;\n\n        &:after {\n          border-left: none;\n          opacity: 0;\n        }\n      }\n    "])), props.strokeColor ? props.strokeColor : '#000', props.strokeColor ? props.strokeColor : '#000', props.strokeColor ? props.strokeColor : '#000');
 });
 
 var RenderNode = function RenderNode(_ref) {
@@ -1575,6 +1580,7 @@ var RenderNode = function RenderNode(_ref) {
   return React.createElement(OrgTreeNode, {
     id: "node-tree-" + data.id,
     horizontal: prop.horizontal,
+    reverse: prop.reverse,
     className: cls.join(' '),
     strokeColor: prop.strokeColor,
     strokeWidth: prop.strokeWidth,
@@ -1666,7 +1672,7 @@ var _templateObject$4, _templateObject2$4;
 var OrgTreeContainer = /*#__PURE__*/styled.div(_templateObject$4 || (_templateObject$4 = /*#__PURE__*/_taggedTemplateLiteralLoose(["\n  display: block;\n  padding: 15px;\n"])));
 var OrgTree = /*#__PURE__*/styled.div(_templateObject2$4 || (_templateObject2$4 = /*#__PURE__*/_taggedTemplateLiteralLoose(["\n  display: table;\n  text-align: center;\n\n  &:before,\n  &:after {\n    content: '';\n    display: table;\n  }\n\n  &:after {\n    clear: both;\n  }\n"])));
 
-var _excluded$2 = ["data", "onClick", "collapsable", "expandAll", "horizontal"];
+var _excluded$2 = ["data", "onClick", "collapsable", "expandAll", "horizontal", "reverse"];
 var initialState = {
   node: {
     label: 'label',
@@ -1683,6 +1689,8 @@ var OrgTreeComponent = function OrgTreeComponent(_ref) {
       expandAll = _ref$expandAll === void 0 ? true : _ref$expandAll,
       _ref$horizontal = _ref.horizontal,
       horizontal = _ref$horizontal === void 0 ? false : _ref$horizontal,
+      _ref$reverse = _ref.reverse,
+      reverse = _ref$reverse === void 0 ? false : _ref$reverse,
       props = _objectWithoutPropertiesLoose(_ref, _excluded$2);
 
   var _useState = useState(expandAll),
@@ -1696,6 +1704,7 @@ var OrgTreeComponent = function OrgTreeComponent(_ref) {
       return !expandAllNodes;
     });else setExpandAllNodes(true);
   }, [data.id]);
+  console.log(reverse);
   return React.createElement(OrgTreeContainer, {
     horizontal: horizontal
   }, React.createElement(OrgTree, {
@@ -1704,6 +1713,7 @@ var OrgTreeComponent = function OrgTreeComponent(_ref) {
     data: data,
     horizontal: horizontal,
     node: node,
+    reverse: reverse,
     onExpandNodes: onExpandNodes,
     collapsable: collapsable,
     expandAll: expandAllNodes,
@@ -1713,7 +1723,7 @@ var OrgTreeComponent = function OrgTreeComponent(_ref) {
   }, props))));
 };
 
-var _excluded$3 = ["data", "onClick", "collapsable", "expandAll", "horizontal"];
+var _excluded$3 = ["data", "onClick", "collapsable", "expandAll", "horizontal", "reverse"];
 var RenderTrees = /*#__PURE__*/forwardRef(function (_ref, ref) {
   var data = _ref.data,
       _ref$collapsable = _ref.collapsable,
@@ -1722,8 +1732,11 @@ var RenderTrees = /*#__PURE__*/forwardRef(function (_ref, ref) {
       expandAll = _ref$expandAll === void 0 ? true : _ref$expandAll,
       _ref$horizontal = _ref.horizontal,
       horizontal = _ref$horizontal === void 0 ? false : _ref$horizontal,
+      _ref$reverse = _ref.reverse,
+      reverse = _ref$reverse === void 0 ? false : _ref$reverse,
       props = _objectWithoutPropertiesLoose(_ref, _excluded$3);
 
+  if (horizontal && reverse) throw new Error('The horizontal and reverse properties cannot be used at the same time');
   return React.createElement(DndProvider, {
     backend: HTML5Backend
   }, React.createElement(HierarchyTreesContextProvider, {
@@ -1737,7 +1750,8 @@ var RenderTrees = /*#__PURE__*/forwardRef(function (_ref, ref) {
       data: tree,
       collapsable: collapsable,
       expandAll: expandAll,
-      horizontal: horizontal
+      horizontal: horizontal,
+      reverse: reverse
     }, props)));
   })));
 });

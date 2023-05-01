@@ -11,6 +11,7 @@ export interface ITreeOptions {
   strokeColor?: string;
   strokeWidth?: string;
   expanded?: boolean;
+  reverse?: boolean;
 }
 
 export interface IRenderChildren {
