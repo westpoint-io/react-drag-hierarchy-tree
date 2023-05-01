@@ -30,8 +30,6 @@ export const OrgTreeComponent = ({
     else setExpandAllNodes(true);
   }, [data.id]);
 
-  console.log(reverse);
-
   return (
     <OrgTreeContainer horizontal={horizontal}>
       <OrgTree horizontal={horizontal}>

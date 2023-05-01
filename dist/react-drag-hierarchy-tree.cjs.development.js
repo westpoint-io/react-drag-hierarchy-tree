@@ -1711,7 +1711,6 @@ var OrgTreeComponent = function OrgTreeComponent(_ref) {
       return !expandAllNodes;
     });else setExpandAllNodes(true);
   }, [data.id]);
-  console.log(reverse);
   return React__default.createElement(OrgTreeContainer, {
     horizontal: horizontal
   }, React__default.createElement(OrgTree, {
