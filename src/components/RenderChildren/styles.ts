@@ -39,8 +39,8 @@ export const ChildrenComponent = styled.div<ITreeOptions>`
     props.reverse &&
     css`
       display: flex;
-      padding-top: 0px;
-      padding-bottom: 20px;
+      padding-top: 0;
+      padding-bottom: 1.25rem;
 
       &:before {
         content: '';
@@ -49,7 +49,7 @@ export const ChildrenComponent = styled.div<ITreeOptions>`
         bottom: 0;
         left: 50%;
         width: 0;
-        height: 20px;
+        height: 1.25rem;
       }
     `}
 
