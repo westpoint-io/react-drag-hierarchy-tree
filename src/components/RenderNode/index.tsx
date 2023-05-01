@@ -36,6 +36,7 @@ export const RenderNode = ({
     <OrgTreeNode
       id={`node-tree-${data.id}`}
       horizontal={prop.horizontal}
+      reverse={prop.reverse}
       className={cls.join(' ')}
       strokeColor={prop.strokeColor}
       strokeWidth={prop.strokeWidth}

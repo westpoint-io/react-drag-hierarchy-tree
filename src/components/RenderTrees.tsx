@@ -14,24 +14,32 @@ export const RenderTrees = forwardRef<any, IRenderTrees>(
       collapsable = true,
       expandAll = true,
       horizontal = false,
+      reverse = false,
       ...props
     },
     ref
-  ) => (
-    <DndProvider backend={HTML5Backend}>
-      <HierarchyTreesContextProvider data={data} treeDataRef={ref}>
-        {data.map((tree, i) => (
-          <IndexContextProvider key={i} index={i}>
-            <OrgTreeComponent
-              data={tree}
-              collapsable={collapsable}
-              expandAll={expandAll}
-              horizontal={horizontal}
-              {...props}
-            />
-          </IndexContextProvider>
-        ))}
-      </HierarchyTreesContextProvider>
-    </DndProvider>
-  )
+  ) => {
+    if (horizontal && reverse)
+      throw new Error(
+        'The horizontal and reverse properties cannot be used at the same time'
+      );
+    return (
+      <DndProvider backend={HTML5Backend}>
+        <HierarchyTreesContextProvider data={data} treeDataRef={ref}>
+          {data.map((tree, i) => (
+            <IndexContextProvider key={i} index={i}>
+              <OrgTreeComponent
+                data={tree}
+                collapsable={collapsable}
+                expandAll={expandAll}
+                horizontal={horizontal}
+                reverse={reverse}
+                {...props}
+              />
+            </IndexContextProvider>
+          ))}
+        </HierarchyTreesContextProvider>
+      </DndProvider>
+    );
+  }
 );

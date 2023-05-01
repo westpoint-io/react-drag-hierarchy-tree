@@ -17,6 +17,7 @@ export const RenderChildren = ({
         id={`children_${data.id}`}
         className={'org-tree-node-children'}
         horizontal={!!prop.horizontal}
+        reverse={prop.reverse}
         strokeColor={prop.strokeColor}
         strokeWidth={prop.strokeWidth}
       >
