@@ -91,7 +91,7 @@ export const RenderCard = ({
 
   const [{ isDragging }, drag] = useDrag(
     () => ({
-      type: 'box',
+      type: `box-${index}`,
       item: { ...data, treeIndex: index },
       options: {
         dropEffect: 'copy',
@@ -195,7 +195,7 @@ export const RenderCard = ({
 
   const [{ isOver, canDrop }, drop] = useDrop(
     () => ({
-      accept: 'box',
+      accept: `box-${index}`,
       canDrop: (item: INestedObject) =>
         index !== item.treeIndex ||
         (data.id !== item.id &&

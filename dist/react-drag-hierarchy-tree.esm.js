@@ -1386,7 +1386,7 @@ var RenderCard = function RenderCard(_ref) {
 
   var _useDrag = useDrag(function () {
     return {
-      type: 'box',
+      type: "box-" + index,
       item: _extends({}, data, {
         treeIndex: index
       }),
@@ -1477,7 +1477,7 @@ var RenderCard = function RenderCard(_ref) {
 
   var _useDrop = useDrop(function () {
     return {
-      accept: 'box',
+      accept: "box-" + index,
       canDrop: function canDrop(item) {
         return index !== item.treeIndex || data.id !== item.id && !isDirectChild(index, data.id, item.id, hierarchyRef.current) && !isParent(index, item.id, data.id, hierarchyRef.current);
       },
